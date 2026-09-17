@@ -2,6 +2,7 @@ import React, { useState, useEffect } from 'react';
 import type { User } from '../../types';
 import { api } from '../../services/api';
 import { SmartSkillLogo } from './SmartSkillLogo';
+import { useTheme } from './ThemeProvider';
 import { 
   LogOut, 
   BookOpen, 
@@ -27,7 +28,9 @@ import {
   FileQuestion,
   LifeBuoy,
   Loader2,
-  KeyRound
+  KeyRound,
+  Moon,
+  Sun
 } from 'lucide-react';
 
 interface NavbarProps {
@@ -47,6 +50,7 @@ export const Navbar: React.FC<NavbarProps> = ({
   onSwitchRole,
   onOpenAuth,
 }) => {
+  const { isDark, toggleTheme } = useTheme();
   const [isDrawerOpen, setIsDrawerOpen] = useState(false);
   const [isHelpModalOpen, setIsHelpModalOpen] = useState(false);
   const [copiedEmail, setCopiedEmail] = useState(false);
@@ -221,6 +225,18 @@ export const Navbar: React.FC<NavbarProps> = ({
 
             {/* RIGHT SIDE: ESSENTIAL CONTROLS ONLY (HELP & SUPPORT, ROLE SWITCHER, PROFILE) */}
             <div className="flex items-center gap-2.5 sm:gap-3">
+
+              {/* ── Dark Mode Toggle ── */}
+              <button
+                onClick={toggleTheme}
+                className="theme-toggle p-2 rounded-xl bg-white/10 hover:bg-white/20 border border-white/20 text-white shadow-xs"
+                title={isDark ? 'Switch to Light Mode' : 'Switch to Dark Mode'}
+                aria-label="Toggle dark mode"
+              >
+                {isDark
+                  ? <Sun className="w-4 h-4 text-amber-300" />
+                  : <Moon className="w-4 h-4 text-slate-300" />}
+              </button>
 
               {/* Help & Support Button */}
               <button

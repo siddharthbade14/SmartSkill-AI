@@ -697,3 +697,170 @@ input:focus, select:focus, textarea:focus {
   font-variant-numeric: tabular-nums;
   font-feature-settings: "tnum" 1;
 }
+
+/* ═══════════════════════════════════════════════════════════════════════════
+   §16  DARK MODE
+══════════════════════════════════════════════════════════════════════════════ */
+:root {
+  --c-bg:          #F1F5F9;
+  --c-surface:     #FFFFFF;
+  --c-surface-2:   #F8FAFC;
+  --c-border:      #E2E8F0;
+  --c-text:        #0F172A;
+  --c-text-muted:  #64748B;
+  --c-text-faint:  #94A3B8;
+}
+
+html.dark {
+  color-scheme: dark;
+  --c-bg:          #0B1120;
+  --c-surface:     #131D2E;
+  --c-surface-2:   #1A2740;
+  --c-border:      #1E3A5F;
+  --c-text:        #E2E8F0;
+  --c-text-muted:  #94A3B8;
+  --c-text-faint:  #64748B;
+}
+
+html.dark body {
+  background-color: #0B1120;
+  color: #E2E8F0;
+}
+
+html.dark .glass-card,
+html.dark .card-hover {
+  background: #131D2E;
+  border-color: #1E3A5F;
+  color: #E2E8F0;
+}
+
+html.dark .feature-card,
+html.dark .pipeline-card {
+  background: linear-gradient(135deg, #131D2E, #1A2740);
+  border-color: #1E3A5F;
+  color: #E2E8F0;
+}
+
+html.dark .feature-card h3,
+html.dark .pipeline-card span,
+html.dark .pipeline-card p {
+  color: #CBD5E1;
+}
+
+html.dark footer {
+  background: #0D1626;
+  border-color: #1E3A5F;
+  color: #64748B;
+}
+
+html.dark input,
+html.dark select,
+html.dark textarea {
+  background: #1A2740 !important;
+  border-color: #1E3A5F !important;
+  color: #E2E8F0 !important;
+}
+
+html.dark input::placeholder,
+html.dark textarea::placeholder {
+  color: #475569 !important;
+}
+
+/* Dark mode scrollbar */
+html.dark ::-webkit-scrollbar-thumb {
+  background: linear-gradient(180deg, #1E3A5F, #2D4E7A);
+}
+html.dark ::-webkit-scrollbar-thumb:hover { background: #3B6EA5; }
+
+/* Dark text surfaces */
+html.dark .text-slate-800 { color: #CBD5E1 !important; }
+html.dark .text-slate-700 { color: #94A3B8 !important; }
+html.dark .text-slate-600 { color: #7A90A8 !important; }
+html.dark .text-slate-500 { color: #64748B !important; }
+html.dark .text-slate-900 { color: #E2E8F0 !important; }
+html.dark .bg-white       { background: #131D2E !important; }
+html.dark .bg-slate-50    { background: #1A2740 !important; }
+html.dark .bg-slate-100   { background: #0B1120 !important; }
+html.dark .border-slate-200 { border-color: #1E3A5F !important; }
+html.dark .border-slate-300 { border-color: #2D4E7A !important; }
+
+/* Dark mode toggle button */
+.theme-toggle {
+  transition: background 0.25s ease, transform 0.3s cubic-bezier(0.34,1.56,0.64,1);
+}
+.theme-toggle:hover { transform: scale(1.12) rotate(15deg); }
+
+/* ═══════════════════════════════════════════════════════════════════════════
+   §17  TOAST ANIMATIONS
+══════════════════════════════════════════════════════════════════════════════ */
+@keyframes toastIn {
+  from { opacity: 0; transform: translateX(40px) scale(0.92); }
+  to   { opacity: 1; transform: translateX(0)    scale(1);    }
+}
+.animate-toast-in {
+  animation: toastIn 0.32s cubic-bezier(0.16,1,0.3,1) both;
+}
+
+/* ═══════════════════════════════════════════════════════════════════════════
+   §18  SKELETON LOADER
+══════════════════════════════════════════════════════════════════════════════ */
+.skeleton {
+  background: linear-gradient(90deg, #E2E8F0 25%, #F1F5F9 50%, #E2E8F0 75%);
+  background-size: 250% auto;
+  animation: shimmer 1.8s linear infinite;
+  border-radius: 0.5rem;
+}
+html.dark .skeleton {
+  background: linear-gradient(90deg, #1A2740 25%, #223354 50%, #1A2740 75%);
+  background-size: 250% auto;
+}
+
+.skeleton-text  { height: 0.85rem; margin-bottom: 0.5rem; }
+.skeleton-title { height: 1.4rem;  margin-bottom: 0.75rem; width: 60%; }
+.skeleton-circle { border-radius: 9999px; }
+.skeleton-card {
+  background: #fff;
+  border: 1px solid #E2E8F0;
+  border-radius: 1rem;
+  padding: 1.25rem;
+  box-shadow: var(--shadow-sm);
+}
+html.dark .skeleton-card { background: #131D2E; border-color: #1E3A5F; }
+
+/* ═══════════════════════════════════════════════════════════════════════════
+   §19  SIH / FOOTER BADGE
+══════════════════════════════════════════════════════════════════════════════ */
+.sih-badge {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.4rem;
+  padding: 0.25rem 0.75rem;
+  border-radius: 9999px;
+  font-size: 0.7rem;
+  font-weight: 800;
+  letter-spacing: 0.05em;
+  text-transform: uppercase;
+  background: linear-gradient(135deg, #FF6B35, #F7C59F);
+  color: #7C2D12;
+  box-shadow: 0 2px 8px rgba(255,107,53,.30);
+  transition: transform 0.22s cubic-bezier(0.34,1.56,0.64,1), box-shadow 0.18s ease;
+}
+.sih-badge:hover {
+  transform: scale(1.08) translateY(-1px);
+  box-shadow: 0 4px 16px rgba(255,107,53,.40);
+}
+
+/* ═══════════════════════════════════════════════════════════════════════════
+   §20  STAT COUNTER CARDS  
+══════════════════════════════════════════════════════════════════════════════ */
+.stat-section {
+  position: relative;
+  overflow: hidden;
+}
+.stat-section::before {
+  content: '';
+  position: absolute;
+  inset: 0;
+  background: linear-gradient(135deg, rgba(59,130,246,.04) 0%, rgba(16,185,129,.04) 50%, rgba(245,158,11,.04) 100%);
+  pointer-events: none;
+}
