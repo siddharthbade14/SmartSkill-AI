@@ -24,8 +24,9 @@ def get_engine():
         return engine
     except Exception as e:
         if not db_url.startswith("sqlite"):
-            logger.warning(f"PostgreSQL connection failed ({e}). Falling back to SQLite for local development: sqlite:///./smartskill.db")
-            fallback_url = "sqlite:///./smartskill.db"
+            fallback_path = "/tmp/smartskill.db" if os.getenv("VERCEL") else "./smartskill.db"
+            logger.warning(f"PostgreSQL connection failed ({e}). Falling back to SQLite: sqlite:///{fallback_path}")
+            fallback_url = f"sqlite:///{fallback_path}"
             return create_engine(fallback_url, connect_args={"check_same_thread": False}, pool_pre_ping=True)
         raise e
 

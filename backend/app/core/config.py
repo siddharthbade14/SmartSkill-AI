@@ -17,7 +17,7 @@ class Settings(BaseSettings):
     # Database (PostgreSQL with automatic fallback to SQLite)
     DATABASE_URL: str = os.getenv(
         "DATABASE_URL",
-        f"sqlite:///{os.path.abspath(os.path.join(os.path.dirname(__file__), '../../smartskill.db')).replace('\\', '/')}"
+        "sqlite:////tmp/smartskill.db" if (os.getenv("VERCEL") or os.getenv("AWS_LAMBDA_FUNCTION_NAME")) else f"sqlite:///{os.path.abspath(os.path.join(os.path.dirname(__file__), '../../smartskill.db')).replace('\\', '/')}"
     )
     
     # AI Engine (Google Gemini 3.8 Flash)

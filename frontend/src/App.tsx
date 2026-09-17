@@ -18,7 +18,6 @@ import {
   CheckCircle2, 
   Award,
   Brain,
-  Github,
   ExternalLink,
   TrendingUp,
   Users,
@@ -35,14 +34,48 @@ export function AppInner() {
   const [chatAssistantOpen, setChatAssistantOpen] = useState<boolean>(false);
   const [loadingUser, setLoadingUser] = useState<boolean>(true);
 
+  const isLoginRoute = () => {
+    if (typeof window === 'undefined') return false;
+    const path = window.location.pathname.toLowerCase();
+    const search = window.location.search.toLowerCase();
+    const hash = window.location.hash.toLowerCase();
+    return (
+      path === '/login' ||
+      path === '/signin' ||
+      path.endsWith('/login') ||
+      search.includes('auth=login') ||
+      search.includes('login=true') ||
+      hash === '#login'
+    );
+  };
+
   useEffect(() => {
     initAuth();
+
+    // Listen for browser Back/Forward navigation
+    const handlePopState = () => {
+      if (isLoginRoute()) {
+        setAuthModalOpen(true);
+      } else {
+        setAuthModalOpen(false);
+      }
+    };
+    window.addEventListener('popstate', handlePopState);
+    return () => window.removeEventListener('popstate', handlePopState);
   }, []);
 
   const initAuth = async () => {
     try {
+      const directLoginRequested = isLoginRoute();
       const stored = api.getStoredUser();
-      if (stored) {
+
+      if (directLoginRequested) {
+        // Direct link to login page requested: show login modal
+        setAuthModalOpen(true);
+        if (stored) {
+          setCurrentUser(stored);
+        }
+      } else if (stored) {
         setCurrentUser(stored);
         setActiveTab(stored.role === 'admin' ? 'hitl' : 'assessments');
       } else {
@@ -62,10 +95,34 @@ export function AppInner() {
     }
   };
 
+  const handleOpenAuth = () => {
+    if (typeof window !== 'undefined' && window.location.pathname !== '/login') {
+      window.history.pushState({}, '', '/login');
+    }
+    setAuthModalOpen(true);
+  };
+
+  const handleCloseAuth = () => {
+    if (typeof window !== 'undefined' && (window.location.pathname === '/login' || window.location.pathname === '/signin')) {
+      window.history.pushState({}, '', '/');
+    }
+    setAuthModalOpen(false);
+  };
+
+  const handleAuthSuccess = (user: User) => {
+    setCurrentUser(user);
+    setActiveTab(user.role === 'admin' ? 'hitl' : 'assessments');
+    if (typeof window !== 'undefined' && (window.location.pathname === '/login' || window.location.pathname === '/signin')) {
+      window.history.pushState({}, '', '/');
+    }
+    setAuthModalOpen(false);
+  };
+
   const handleLogout = () => {
     api.clearAuth();
     setCurrentUser(null);
     setActiveTab('hitl');
+    toast.info('Signed Out', 'You have been logged out of the portal session.');
   };
 
   const handleSwitchRole = async (targetRole: 'admin' | 'learner') => {
@@ -96,7 +153,7 @@ export function AppInner() {
           setActiveTab={setActiveTab}
           onLogout={handleLogout}
           onSwitchRole={handleSwitchRole}
-          onOpenAuth={() => setAuthModalOpen(true)}
+          onOpenAuth={handleOpenAuth}
         />
 
         {/* Main Content Area */}
@@ -357,11 +414,8 @@ export function AppInner() {
         {/* Auth Modal */}
         <AuthModal
           isOpen={authModalOpen}
-          onClose={() => setAuthModalOpen(false)}
-          onSuccess={(user) => {
-            setCurrentUser(user);
-            setActiveTab(user.role === 'admin' ? 'hitl' : 'assessments');
-          }}
+          onClose={handleCloseAuth}
+          onSuccess={handleAuthSuccess}
         />
 
         {/* Floating MoSPI AI Chatbot Assistant (Gemini 3.8 Flash) */}
