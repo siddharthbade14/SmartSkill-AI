@@ -10,6 +10,7 @@ import { LearnerDashboard } from './components/learner/LearnerDashboard';
 import { ToastProvider, useToast } from './components/common/Toast';
 import { ThemeProvider } from './components/common/ThemeProvider';
 import { StatCounter } from './components/common/StatCounter';
+import { EvaluatorTour } from './components/common/EvaluatorTour';
 import { 
   Sparkles, 
   ShieldCheck, 
@@ -23,7 +24,8 @@ import {
   Users,
   ClipboardCheck,
   GraduationCap,
-  Zap
+  Zap,
+  Rocket
 } from 'lucide-react';
 
 export function AppInner() {
@@ -32,6 +34,7 @@ export function AppInner() {
   const [activeTab, setActiveTab] = useState<string>('hitl');
   const [authModalOpen, setAuthModalOpen] = useState<boolean>(false);
   const [chatAssistantOpen, setChatAssistantOpen] = useState<boolean>(false);
+  const [evaluatorTourOpen, setEvaluatorTourOpen] = useState<boolean>(false);
   const [loadingUser, setLoadingUser] = useState<boolean>(true);
 
   const isLoginRoute = () => {
@@ -51,6 +54,15 @@ export function AppInner() {
 
   useEffect(() => {
     initAuth();
+
+    // Check if evaluator tour is requested via URL
+    if (typeof window !== 'undefined') {
+      const search = window.location.search.toLowerCase();
+      const hash = window.location.hash.toLowerCase();
+      if (search.includes('tour') || hash.includes('tour')) {
+        setEvaluatorTourOpen(true);
+      }
+    }
 
     // Listen for browser Back/Forward navigation
     const handlePopState = () => {
@@ -154,6 +166,7 @@ export function AppInner() {
           onLogout={handleLogout}
           onSwitchRole={handleSwitchRole}
           onOpenAuth={handleOpenAuth}
+          onStartTour={() => setEvaluatorTourOpen(true)}
         />
 
         {/* Main Content Area */}
@@ -191,8 +204,16 @@ export function AppInner() {
 
                 <div className="animate-fade-up-d2 flex flex-wrap items-center justify-center gap-4 mb-16">
                   <button
+                    onClick={() => setEvaluatorTourOpen(true)}
+                    className="btn-primary px-7 py-4 bg-gradient-to-r from-amber-500 via-orange-500 to-amber-600 hover:from-amber-400 hover:to-orange-400 border-2 border-amber-300 text-slate-950 text-sm sm:text-base font-black rounded-xl shadow-xl shadow-amber-500/30 flex items-center gap-3 active:scale-95 animate-subtle-pulse cursor-pointer"
+                  >
+                    <Rocket className="w-5 h-5 text-slate-950" />
+                    <span>Start Evaluator Tour (3-Min Walkthrough)</span>
+                  </button>
+
+                  <button
                     onClick={() => handleSwitchRole('admin')}
-                    className="btn-primary px-7 py-4 bg-[#0B2545] hover:bg-slate-900 border border-slate-800 text-white text-sm sm:text-base font-bold rounded-xl shadow-md flex items-center gap-3"
+                    className="btn-primary px-7 py-4 bg-[#0B2545] hover:bg-slate-900 border border-slate-800 text-white text-sm sm:text-base font-bold rounded-xl shadow-md flex items-center gap-3 cursor-pointer"
                   >
                     <ShieldCheck className="w-5 h-5 text-amber-400" />
                     Enter as Admin Trainer (HITL Curation)
@@ -200,7 +221,7 @@ export function AppInner() {
 
                   <button
                     onClick={() => handleSwitchRole('learner')}
-                    className="btn-primary px-7 py-4 bg-[#0F766E] hover:bg-teal-800 border border-teal-800 text-white text-sm sm:text-base font-bold rounded-xl shadow-md flex items-center gap-3"
+                    className="btn-primary px-7 py-4 bg-[#0F766E] hover:bg-teal-800 border border-teal-800 text-white text-sm sm:text-base font-bold rounded-xl shadow-md flex items-center gap-3 cursor-pointer"
                   >
                     <BookOpen className="w-5 h-5 text-emerald-300" />
                     Enter as Learner Officer (Assessment & iGOT)
@@ -424,6 +445,15 @@ export function AppInner() {
           isOpen={chatAssistantOpen}
           onClose={() => setChatAssistantOpen(false)}
           onOpen={() => setChatAssistantOpen(true)}
+        />
+
+        {/* Interactive 3-Minute Evaluator Walkthrough Tour */}
+        <EvaluatorTour
+          isOpen={evaluatorTourOpen}
+          onClose={() => setEvaluatorTourOpen(false)}
+          onSwitchRole={handleSwitchRole}
+          setActiveTab={setActiveTab}
+          onOpenChat={() => setChatAssistantOpen(true)}
         />
       </div>
     </ErrorBoundary>

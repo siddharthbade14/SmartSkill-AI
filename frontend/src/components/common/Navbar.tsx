@@ -30,7 +30,8 @@ import {
   Loader2,
   KeyRound,
   Moon,
-  Sun
+  Sun,
+  Rocket
 } from 'lucide-react';
 
 interface NavbarProps {
@@ -40,6 +41,7 @@ interface NavbarProps {
   onLogout: () => void;
   onSwitchRole: (role: 'admin' | 'learner') => void;
   onOpenAuth: () => void;
+  onStartTour?: () => void;
 }
 
 export const Navbar: React.FC<NavbarProps> = ({
@@ -49,6 +51,7 @@ export const Navbar: React.FC<NavbarProps> = ({
   onLogout,
   onSwitchRole,
   onOpenAuth,
+  onStartTour,
 }) => {
   const { isDark, toggleTheme } = useTheme();
   const [isDrawerOpen, setIsDrawerOpen] = useState(false);
@@ -225,6 +228,18 @@ export const Navbar: React.FC<NavbarProps> = ({
 
             {/* RIGHT SIDE: ESSENTIAL CONTROLS ONLY (HELP & SUPPORT, ROLE SWITCHER, PROFILE) */}
             <div className="flex items-center gap-2.5 sm:gap-3">
+
+              {/* ── Evaluator Tour Button ── */}
+              {onStartTour && (
+                <button
+                  onClick={onStartTour}
+                  className="inline-flex items-center gap-1.5 px-3 py-2 rounded-xl bg-gradient-to-r from-amber-500 to-orange-500 hover:from-amber-400 hover:to-orange-400 text-slate-950 text-xs font-black shadow-md shadow-amber-500/25 border border-amber-300 transition active:scale-95 animate-subtle-pulse cursor-pointer"
+                  title="Start Interactive 3-Minute Evaluator Tour"
+                >
+                  <Rocket className="w-3.5 h-3.5 text-slate-950" />
+                  <span className="font-extrabold tracking-tight">Evaluator Tour</span>
+                </button>
+              )}
 
               {/* ── Dark Mode Toggle ── */}
               <button
