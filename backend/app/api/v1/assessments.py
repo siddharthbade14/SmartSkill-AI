@@ -3,7 +3,7 @@ from typing import List
 from fastapi import APIRouter, Depends, HTTPException, status
 from sqlalchemy.orm import Session
 
-from app.api.v1.deps import get_current_user, require_learner
+from app.api.v1.deps import get_current_user, require_learner, require_admin
 from app.db.session import get_db
 from app.models.assessment import AssessmentAttempt, AssessmentAnswer
 from app.models.question import Question
@@ -24,7 +24,7 @@ router = APIRouter()
 @router.get("/available", response_model=List[QuizResponse])
 def get_available_quizzes(
     db: Session = Depends(get_db),
-    current_user: User = Depends(require_learner)
+    current_user: User = Depends(get_current_user)
 ):
     """
     List all active, published quizzes ready for learner assessment.
@@ -59,20 +59,28 @@ def get_available_quizzes(
 def start_quiz(
     quiz_id: int,
     db: Session = Depends(get_db),
-    current_user: User = Depends(require_learner)
+    current_user: User = Depends(get_current_user)
 ):
     """
     Start an assessment session. Returns approved questions without answers or explanations.
+    For admins, allow previewing any quiz that has approved questions; for learners, require PUBLISHED.
     """
-    quiz = db.query(Quiz).filter(Quiz.id == quiz_id, Quiz.status == "PUBLISHED").first()
+    if current_user.role == "admin":
+        quiz = db.query(Quiz).filter(Quiz.id == quiz_id).first()
+    else:
+        quiz = db.query(Quiz).filter(Quiz.id == quiz_id, Quiz.status == "PUBLISHED").first()
+
     if not quiz:
-        raise HTTPException(status_code=status.HTTP_404_NOT_FOUND, detail="Published quiz not found")
+        raise HTTPException(
+            status_code=status.HTTP_404_NOT_FOUND, 
+            detail="Assessment module not found or has not been published yet."
+        )
 
     approved_questions = [q for q in quiz.questions if q.review_status == "APPROVED"]
     if not approved_questions:
         raise HTTPException(
             status_code=status.HTTP_400_BAD_REQUEST,
-            detail="This quiz does not have any approved questions yet."
+            detail="This assessment module does not have any approved questions yet. Please approve questions in the HITL review queue first."
         )
 
     return QuizLearnerDetailResponse(
@@ -93,7 +101,7 @@ def submit_quiz(
     quiz_id: int,
     submission: AssessmentSubmission,
     db: Session = Depends(get_db),
-    current_user: User = Depends(require_learner)
+    current_user: User = Depends(get_current_user)
 ):
     """
     Submit assessment answers in real-time.
@@ -121,6 +129,12 @@ def submit_quiz(
         if is_correct:
             correct_count += 1
 
+        answers_for_eval.append({
+            "question_id": question.id,
+            "competency_tag": question.competency_tag,
+            "is_correct": is_correct
+        })
+
         detailed_answers.append(
             AnswerResultDetail(
                 question_id=question.id,
@@ -134,20 +148,13 @@ def submit_quiz(
             )
         )
 
-        answers_for_eval.append({
-            "question_id": question.id,
-            "competency_tag": question.competency_tag,
-            "is_correct": is_correct
-        })
-
-    # Calculate metrics
-    percentage = round((correct_count / total_questions) * 100.0, 1) if total_questions > 0 else 0.0
+    percentage = round((correct_count / total_questions) * 100, 1) if total_questions > 0 else 0.0
     passed = percentage >= quiz.passing_percentage
 
-    # Evaluate granular competency breakdown and generate iGOT course recommendations
+    # Run Competency Diagnostic & iGOT Recommendations Service
     competency_scores, recommendations = recommendation_service.evaluate_competencies_and_recommend(answers_for_eval)
 
-    # Persist attempt
+    # Persist Assessment Attempt
     attempt = AssessmentAttempt(
         user_id=current_user.id,
         quiz_id=quiz.id,
@@ -162,13 +169,13 @@ def submit_quiz(
     db.add(attempt)
     db.flush()
 
-    # Save detailed answers
-    for detail in detailed_answers:
+    # Persist individual answers
+    for ans_eval in answers_for_eval:
         ans_record = AssessmentAnswer(
             attempt_id=attempt.id,
-            question_id=detail.question_id,
-            selected_option=detail.selected_option,
-            is_correct=detail.is_correct
+            question_id=ans_eval["question_id"],
+            selected_option=user_answers_map.get(ans_eval["question_id"], "NONE"),
+            is_correct=ans_eval["is_correct"]
         )
         db.add(ans_record)
 
@@ -194,7 +201,7 @@ def submit_quiz(
 @router.get("/attempts", response_model=List[AttemptSummaryResponse])
 def get_user_attempts(
     db: Session = Depends(get_db),
-    current_user: User = Depends(require_learner)
+    current_user: User = Depends(get_current_user)
 ):
     """
     List previous assessment attempts and scores for the current user.
@@ -265,10 +272,49 @@ def get_attempt_detail(
         score=attempt.score,
         total_questions=attempt.total_questions,
         percentage=attempt.percentage,
-        passed=attempt.passed,
+        passed=passed,
         time_spent_seconds=attempt.time_spent_seconds,
         completed_at=attempt.completed_at,
         competency_breakdown=competency_breakdown,
         recommendations=recommendations,
         detailed_answers=detailed_answers
     )
+
+
+@router.get("/analytics/overview")
+def get_assessment_analytics(
+    db: Session = Depends(get_db),
+    admin_user: User = Depends(require_admin)
+):
+    """
+    Comprehensive platform assessment metrics for administrative dashboards.
+    """
+    attempts = db.query(AssessmentAttempt).all()
+    total_attempts = len(attempts)
+    unique_learners = len(set(a.user_id for a in attempts))
+    passed_count = sum(1 for a in attempts if a.passed)
+    pass_rate = round((passed_count / total_attempts) * 100, 1) if total_attempts > 0 else 0.0
+    avg_score = round(sum(a.percentage for a in attempts) / total_attempts, 1) if total_attempts > 0 else 0.0
+
+    recent = []
+    for a in sorted(attempts, key=lambda x: x.completed_at if x.completed_at else 0, reverse=True)[:10]:
+        recent.append({
+            "attempt_id": a.id,
+            "learner_name": a.user.full_name if a.user else "Officer",
+            "learner_email": a.user.email if a.user else "officer@mospi.gov.in",
+            "quiz_title": a.quiz.title if a.quiz else "Statistical Assessment",
+            "score": a.score,
+            "total_questions": a.total_questions,
+            "percentage": a.percentage,
+            "passed": a.passed,
+            "completed_at": a.completed_at.isoformat() if a.completed_at else None
+        })
+
+    return {
+        "total_attempts": total_attempts,
+        "unique_learners": unique_learners,
+        "average_score_percent": avg_score,
+        "pass_rate_percent": pass_rate,
+        "recent_completions": recent
+    }
+

@@ -153,6 +153,12 @@ class ApiClient {
     return this.request<DocumentDetail>(`/documents/${id}`);
   }
 
+  async deleteDocument(id: number): Promise<{ success: boolean; message: string }> {
+    return this.request<{ success: boolean; message: string }>(`/documents/${id}`, {
+      method: 'DELETE',
+    });
+  }
+
   // --- Quiz & Generation Endpoints ---
   async generateQuiz(params: {
     document_id: number;
@@ -179,6 +185,24 @@ class ApiClient {
 
   async publishQuiz(id: number): Promise<Quiz> {
     return this.request<Quiz>(`/quizzes/${id}/publish`, {
+      method: 'POST',
+    });
+  }
+
+  async unpublishQuiz(id: number): Promise<Quiz> {
+    return this.request<Quiz>(`/quizzes/${id}/unpublish`, {
+      method: 'POST',
+    });
+  }
+
+  async deleteQuiz(id: number): Promise<{ success: boolean; message: string }> {
+    return this.request<{ success: boolean; message: string }>(`/quizzes/${id}`, {
+      method: 'DELETE',
+    });
+  }
+
+  async cloneQuiz(id: number): Promise<Quiz> {
+    return this.request<Quiz>(`/quizzes/${id}/clone`, {
       method: 'POST',
     });
   }
@@ -243,6 +267,26 @@ class ApiClient {
 
   async getAttemptDetail(attemptId: number): Promise<AssessmentResult> {
     return this.request<AssessmentResult>(`/assessments/attempts/${attemptId}`);
+  }
+
+  async getAdminAnalytics(): Promise<{
+    total_attempts: number;
+    unique_learners: number;
+    average_score_percent: number;
+    pass_rate_percent: number;
+    recent_completions: Array<{
+      attempt_id: number;
+      learner_name: string;
+      learner_email: string;
+      quiz_title: string;
+      score: number;
+      total_questions: number;
+      percentage: number;
+      passed: boolean;
+      completed_at: string;
+    }>;
+  }> {
+    return this.request('/assessments/analytics/overview');
   }
 
   // --- Support Endpoints ---

@@ -217,3 +217,130 @@ def publish_quiz(
         approved_questions=approved_count,
         pending_questions=pending_q
     )
+
+
+@router.post("/{quiz_id}/unpublish", response_model=QuizResponse)
+def unpublish_quiz(
+    quiz_id: int,
+    db: Session = Depends(get_db),
+    admin_user: User = Depends(require_admin)
+):
+    """
+    Revert a published assessment back to 'UNDER_REVIEW' for further revisions or quality updates.
+    """
+    quiz = db.query(Quiz).filter(Quiz.id == quiz_id).first()
+    if not quiz:
+        raise HTTPException(status_code=status.HTTP_404_NOT_FOUND, detail="Quiz not found")
+
+    quiz.status = "UNDER_REVIEW"
+    db.commit()
+    db.refresh(quiz)
+
+    total_q = len(quiz.questions)
+    approved_q = sum(1 for item in quiz.questions if item.review_status == "APPROVED")
+    pending_q = sum(1 for item in quiz.questions if item.review_status == "PENDING_REVIEW")
+
+    return QuizResponse(
+        id=quiz.id,
+        title=quiz.title,
+        description=quiz.description,
+        document_id=quiz.document_id,
+        status=quiz.status,
+        target_competency=quiz.target_competency,
+        time_limit_minutes=quiz.time_limit_minutes,
+        passing_percentage=quiz.passing_percentage,
+        created_by_id=quiz.created_by_id,
+        created_at=quiz.created_at,
+        updated_at=quiz.updated_at,
+        total_questions=total_q,
+        approved_questions=approved_q,
+        pending_questions=pending_q
+    )
+
+
+@router.delete("/{quiz_id}", status_code=status.HTTP_200_OK)
+def delete_quiz(
+    quiz_id: int,
+    db: Session = Depends(get_db),
+    admin_user: User = Depends(require_admin)
+):
+    """
+    Permanently delete a quiz and clean up associated questions and records.
+    """
+    quiz = db.query(Quiz).filter(Quiz.id == quiz_id).first()
+    if not quiz:
+        raise HTTPException(status_code=status.HTTP_404_NOT_FOUND, detail="Quiz not found")
+
+    # Delete all questions associated with quiz
+    db.query(Question).filter(Question.quiz_id == quiz.id).delete()
+    db.delete(quiz)
+    db.commit()
+
+    return {"success": True, "message": f"Assessment #{quiz_id} deleted successfully.", "deleted_quiz_id": quiz_id}
+
+
+@router.post("/{quiz_id}/clone", response_model=QuizResponse, status_code=status.HTTP_201_CREATED)
+def clone_quiz(
+    quiz_id: int,
+    db: Session = Depends(get_db),
+    admin_user: User = Depends(require_admin)
+):
+    """
+    Clone an existing quiz and its questions into a new draft quiz (UNDER_REVIEW).
+    Allows trainers to iterate on assessment versions without altering live modules.
+    """
+    orig_quiz = db.query(Quiz).filter(Quiz.id == quiz_id).first()
+    if not orig_quiz:
+        raise HTTPException(status_code=status.HTTP_404_NOT_FOUND, detail="Quiz not found")
+
+    cloned_quiz = Quiz(
+        title=f"Copy of {orig_quiz.title}",
+        description=orig_quiz.description,
+        document_id=orig_quiz.document_id,
+        status="UNDER_REVIEW",
+        target_competency=orig_quiz.target_competency,
+        time_limit_minutes=orig_quiz.time_limit_minutes,
+        passing_percentage=orig_quiz.passing_percentage,
+        created_by_id=admin_user.id
+    )
+    db.add(cloned_quiz)
+    db.flush()
+
+    for q in orig_quiz.questions:
+        cloned_q = Question(
+            quiz_id=cloned_quiz.id,
+            question_text=q.question_text,
+            option_a=q.option_a,
+            option_b=q.option_b,
+            option_c=q.option_c,
+            option_d=q.option_d,
+            correct_option=q.correct_option,
+            explanation=q.explanation,
+            competency_tag=q.competency_tag,
+            difficulty=q.difficulty,
+            source_reference=q.source_reference,
+            review_status="PENDING_REVIEW"
+        )
+        db.add(cloned_q)
+
+    db.commit()
+    db.refresh(cloned_quiz)
+
+    total_q = len(cloned_quiz.questions)
+    return QuizResponse(
+        id=cloned_quiz.id,
+        title=cloned_quiz.title,
+        description=cloned_quiz.description,
+        document_id=cloned_quiz.document_id,
+        status=cloned_quiz.status,
+        target_competency=cloned_quiz.target_competency,
+        time_limit_minutes=cloned_quiz.time_limit_minutes,
+        passing_percentage=cloned_quiz.passing_percentage,
+        created_by_id=cloned_quiz.created_by_id,
+        created_at=cloned_quiz.created_at,
+        updated_at=cloned_quiz.updated_at,
+        total_questions=total_q,
+        approved_questions=0,
+        pending_questions=total_q
+    )
+

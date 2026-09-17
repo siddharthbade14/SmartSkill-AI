@@ -214,20 +214,22 @@ def init_db(db: Session = None) -> None:
             logger.info("Created Published Quiz with 4 Approved MCQs")
 
         # 4. Ensure HITL Draft Quiz for Admin Review Queue
-        draft_quiz = db.query(Quiz).filter(Quiz.status == "UNDER_REVIEW").first()
-        if not draft_quiz:
-            draft_quiz = Quiz(
-                title="AI-Generated Review Queue: Survey Auditing & Quality",
-                description="Recently generated draft questions from the 2026 Manual awaiting human-in-the-loop expert trainer vetting.",
-                document_id=sample_doc.id,
-                status="UNDER_REVIEW",
-                target_competency="Data Quality Control & Field Verification",
-                time_limit_minutes=15,
-                passing_percentage=70,
-                created_by_id=admin_user.id
-            )
-            db.add(draft_quiz)
-            db.flush()
+        pending_count = db.query(Question).filter(Question.review_status == "PENDING_REVIEW").count()
+        if pending_count == 0:
+            draft_quiz = db.query(Quiz).filter(Quiz.status == "UNDER_REVIEW").first()
+            if not draft_quiz:
+                draft_quiz = Quiz(
+                    title="AI-Generated Review Queue: Survey Auditing & Quality",
+                    description="Recently generated draft questions from the 2026 Manual awaiting human-in-the-loop expert trainer vetting.",
+                    document_id=sample_doc.id,
+                    status="UNDER_REVIEW",
+                    target_competency="Data Quality Control & Field Verification",
+                    time_limit_minutes=15,
+                    passing_percentage=70,
+                    created_by_id=admin_user.id
+                )
+                db.add(draft_quiz)
+                db.flush()
 
             pending_questions = [
                 Question(

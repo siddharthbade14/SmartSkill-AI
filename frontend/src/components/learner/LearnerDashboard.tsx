@@ -62,6 +62,16 @@ export const LearnerDashboard: React.FC<LearnerDashboardProps> = ({ initialTab =
     loadAttempts();
   }, []);
 
+  useEffect(() => {
+    if (activeView === 'test') return;
+    if (initialTab === 'history') {
+      setActiveView('history');
+      loadAttempts();
+    } else if (initialTab === 'assessments' || initialTab === 'catalog') {
+      setActiveView('catalog');
+    }
+  }, [initialTab]);
+
   // Countdown timer for active assessment
   useEffect(() => {
     if (activeView !== 'test' || !activeQuiz) return;
@@ -170,35 +180,55 @@ export const LearnerDashboard: React.FC<LearnerDashboardProps> = ({ initialTab =
 
   return (
     <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-8">
+      {/* Unified Segmented View Switcher */}
+      {(activeView === 'catalog' || activeView === 'history') && (
+        <div className="flex items-center justify-between pb-4 border-b border-slate-200/80 mb-6">
+          <div className="inline-flex p-1 bg-slate-200/70 rounded-xl border border-slate-300/80 shadow-2xs">
+            <button
+              onClick={() => setActiveView('catalog')}
+              className={`flex items-center gap-2 px-4 py-2 rounded-lg text-xs font-bold transition ${
+                activeView === 'catalog'
+                  ? 'bg-[#0B2545] text-white shadow-xs'
+                  : 'text-slate-700 hover:text-slate-900 hover:bg-white/50'
+              }`}
+            >
+              <BookOpen className="w-3.5 h-3.5" />
+              <span>Available Modules ({availableQuizzes.length})</span>
+            </button>
+            <button
+              onClick={() => {
+                setActiveView('history');
+                loadAttempts();
+              }}
+              className={`flex items-center gap-2 px-4 py-2 rounded-lg text-xs font-bold transition ${
+                activeView === 'history'
+                  ? 'bg-[#0B2545] text-white shadow-xs'
+                  : 'text-slate-700 hover:text-slate-900 hover:bg-white/50'
+              }`}
+            >
+              <History className="w-3.5 h-3.5" />
+              <span>Assessment History ({attempts.length})</span>
+            </button>
+          </div>
+        </div>
+      )}
+
       {/* 1. CATALOG VIEW */}
       {activeView === 'catalog' && (
         <div className="space-y-6">
-          <div className="bg-gradient-to-br from-white via-emerald-50/20 to-slate-50 rounded-2xl border border-emerald-200/80 p-6 sm:p-7 shadow-xs flex flex-col md:flex-row md:items-center md:justify-between gap-4">
-            <div>
-              <div className="flex items-center gap-3 mb-2">
-                <div className="w-11 h-11 rounded-xl bg-emerald-100/80 border border-emerald-300 text-emerald-900 flex items-center justify-center shadow-2xs">
-                  <BookOpen className="w-5 h-5" />
-                </div>
+          <div className="bg-gradient-to-br from-white via-emerald-50/20 to-slate-50 rounded-2xl border border-emerald-200/80 p-6 sm:p-7 shadow-xs">
+            <div className="flex items-center gap-3 mb-2">
+              <div className="w-11 h-11 rounded-xl bg-emerald-100/80 border border-emerald-300 text-emerald-900 flex items-center justify-center shadow-2xs">
+                <BookOpen className="w-5 h-5" />
+              </div>
+              <div>
                 <h1 className="text-2xl font-black text-slate-900 font-sans tracking-tight">
                   Government Micro-Learning Competency Catalog
                 </h1>
+                <p className="text-sm text-slate-600 font-medium">
+                  MoSPI / iGOT Karmayogi Accredited Statistical Knowledge & Quality Standard Modules
+                </p>
               </div>
-              <p className="text-sm text-slate-600 font-medium">
-                MoSPI / iGOT Karmayogi Accredited Statistical Knowledge & Quality Standard Modules
-              </p>
-            </div>
-
-            <div className="flex items-center gap-3">
-              <button
-                onClick={() => {
-                  setActiveView('history');
-                  loadAttempts();
-                }}
-                className="inline-flex items-center gap-2 px-4 py-2.5 bg-white hover:bg-slate-50 border border-slate-300 text-slate-700 text-sm font-bold rounded-xl transition shadow-2xs active:scale-95"
-              >
-                <History className="w-4 h-4 text-slate-500" />
-                My Assessment History ({attempts.length})
-              </button>
             </div>
           </div>
 
@@ -734,12 +764,9 @@ export const LearnerDashboard: React.FC<LearnerDashboardProps> = ({ initialTab =
               <h2 className="text-xl font-bold text-slate-900 font-sans">Your Completed Assessments</h2>
               <p className="text-sm text-slate-500 font-medium mt-0.5">Historical performance records and gap analysis reports</p>
             </div>
-            <button
-              onClick={() => setActiveView('catalog')}
-              className="px-5 py-2.5 bg-[#0B2545] hover:bg-slate-900 border border-slate-800 text-white text-sm font-bold rounded-xl transition shadow-xs active:scale-95"
-            >
-              Browse Catalog
-            </button>
+            <span className="px-3 py-1 bg-slate-100 border border-slate-200 text-slate-700 text-xs font-bold rounded-lg shadow-2xs">
+              {attempts.length} Total Records
+            </span>
           </div>
 
           {loadingHistory ? (

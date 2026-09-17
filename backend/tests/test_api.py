@@ -8,6 +8,10 @@ sys.path.insert(0, os.path.abspath(os.path.join(os.path.dirname(__file__), "..")
 
 from app.main import app
 from app.core.config import settings
+from app.db.init_db import init_db
+
+# Ensure seed data is initialized for test execution
+init_db()
 
 client = TestClient(app)
 
@@ -154,3 +158,56 @@ def test_learner_assessment_lifecycle():
     assert history_resp.status_code == 200
     attempts = history_resp.json()
     assert len(attempts) >= 1
+
+
+def test_admin_analytics_overview():
+    # Login as admin
+    login_resp = client.post(
+        f"{settings.API_V1_STR}/auth/login",
+        json={"email": "admin@mospi.gov.in", "password": "Admin@123"}
+    )
+    token = login_resp.json()["access_token"]
+    headers = {"Authorization": f"Bearer {token}"}
+
+    analytics_resp = client.get(f"{settings.API_V1_STR}/assessments/analytics/overview", headers=headers)
+    assert analytics_resp.status_code == 200
+    data = analytics_resp.json()
+    assert "total_attempts" in data
+    assert "unique_learners" in data
+    assert "average_score_percent" in data
+    assert "pass_rate_percent" in data
+
+
+def test_quiz_clone_unpublish_and_delete():
+    # Login as admin
+    login_resp = client.post(
+        f"{settings.API_V1_STR}/auth/login",
+        json={"email": "admin@mospi.gov.in", "password": "Admin@123"}
+    )
+    token = login_resp.json()["access_token"]
+    headers = {"Authorization": f"Bearer {token}"}
+
+    # Fetch quizzes
+    quizzes_resp = client.get(f"{settings.API_V1_STR}/quizzes/", headers=headers)
+    assert quizzes_resp.status_code == 200
+    quizzes = quizzes_resp.json()
+    assert len(quizzes) > 0
+    target_quiz = quizzes[0]
+
+    # Clone quiz
+    clone_resp = client.post(f"{settings.API_V1_STR}/quizzes/{target_quiz['id']}/clone", headers=headers)
+    assert clone_resp.status_code == 201
+    cloned_quiz = clone_resp.json()
+    assert "Copy of" in cloned_quiz["title"]
+    assert cloned_quiz["status"] == "UNDER_REVIEW"
+
+    # Unpublish cloned quiz (should succeed or remain under review)
+    unpub_resp = client.post(f"{settings.API_V1_STR}/quizzes/{cloned_quiz['id']}/unpublish", headers=headers)
+    assert unpub_resp.status_code == 200
+    assert unpub_resp.json()["status"] == "UNDER_REVIEW"
+
+    # Delete cloned quiz
+    del_resp = client.delete(f"{settings.API_V1_STR}/quizzes/{cloned_quiz['id']}", headers=headers)
+    assert del_resp.status_code == 200
+    assert del_resp.json()["success"] is True
+

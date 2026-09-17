@@ -133,3 +133,29 @@ def get_document(
         extracted_tables_json=doc.extracted_tables_json,
         text_preview=doc.extracted_text[:500] if doc.extracted_text else ""
     )
+
+
+@router.delete("/{document_id}", status_code=status.HTTP_200_OK)
+def delete_document(
+    document_id: int,
+    db: Session = Depends(get_db),
+    admin_user: User = Depends(require_admin)
+):
+    """
+    Permanently delete an uploaded manual and its file on disk.
+    """
+    doc = db.query(Document).filter(Document.id == document_id).first()
+    if not doc:
+        raise HTTPException(status_code=status.HTTP_404_NOT_FOUND, detail="Document not found")
+
+    # Clean up file on disk if exists
+    if doc.file_path and os.path.exists(doc.file_path):
+        try:
+            os.remove(doc.file_path)
+        except Exception:
+            pass
+
+    db.delete(doc)
+    db.commit()
+
+    return {"success": True, "message": f"Document '{doc.filename}' deleted successfully.", "deleted_document_id": document_id}

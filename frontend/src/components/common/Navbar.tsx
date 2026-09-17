@@ -179,11 +179,11 @@ export const Navbar: React.FC<NavbarProps> = ({
           <div className="flex items-center justify-between h-16 sm:h-17 gap-2 sm:gap-4">
             
             {/* LEFT SIDE: UPPER MENU TOGGLE + MATCHING LOGO & SITE NAME */}
-            <div className="flex items-center gap-2 sm:gap-3.5 min-w-0">
-              {/* Upper Menu Button to Toggle Vertical Drawer */}
+            <div className="flex items-center gap-2 sm:gap-3 min-w-0">
+              {/* Mobile-Only Menu Button to Toggle Vertical Drawer */}
               <button
                 onClick={() => setIsDrawerOpen(!isDrawerOpen)}
-                className={`inline-flex items-center gap-1.5 sm:gap-2 px-2.5 sm:px-3.5 py-2 rounded-xl border text-sm font-bold shadow-md transition-all duration-150 active:scale-95 shrink-0 ${
+                className={`inline-flex lg:hidden items-center gap-1.5 px-2.5 py-2 rounded-xl border text-sm font-bold shadow-md transition-all duration-150 active:scale-95 shrink-0 ${
                   isDrawerOpen
                     ? 'bg-blue-600 text-white border-blue-400/60 shadow-blue-900/40 ring-2 ring-blue-400/30'
                     : 'bg-white/10 hover:bg-white/20 text-white border-white/20 hover:border-white/30'
@@ -192,11 +192,11 @@ export const Navbar: React.FC<NavbarProps> = ({
                 aria-label={isDrawerOpen ? 'Hide Navigation Menu' : 'Open Navigation Menu'}
               >
                 {isDrawerOpen ? (
-                  <PanelLeftClose className="w-4 h-4 sm:w-5 sm:h-5 text-amber-400" />
+                  <PanelLeftClose className="w-4 h-4 text-amber-400" />
                 ) : (
-                  <Menu className="w-4 h-4 sm:w-5 sm:h-5 text-white" />
+                  <Menu className="w-4 h-4 text-white" />
                 )}
-                <span className="font-bold tracking-tight text-xs sm:text-sm hidden xs:inline">
+                <span className="font-bold tracking-tight text-xs hidden xs:inline">
                   {isDrawerOpen ? 'Hide' : 'Menu'}
                 </span>
               </button>
@@ -228,8 +228,71 @@ export const Navbar: React.FC<NavbarProps> = ({
               </div>
             </div>
 
+            {/* CENTER: DESKTOP PRIMARY NAVIGATION PILLS (STREAMLINED, NO EXTRA DRAWERS NEEDED) */}
+            {user && (
+              <nav className="hidden lg:flex items-center gap-1 bg-white/10 p-1 rounded-xl border border-white/15">
+                {user.role === 'admin' ? (
+                  <>
+                    <button
+                      onClick={() => setActiveTab('hitl')}
+                      className={`px-3 py-1.5 rounded-lg text-xs font-bold transition ${
+                        activeTab === 'hitl'
+                          ? 'bg-blue-600 text-white shadow-sm'
+                          : 'text-slate-200 hover:text-white hover:bg-white/10'
+                      }`}
+                    >
+                      HITL Review Queue
+                    </button>
+                    <button
+                      onClick={() => setActiveTab('documents')}
+                      className={`px-3 py-1.5 rounded-lg text-xs font-bold transition ${
+                        activeTab === 'documents'
+                          ? 'bg-blue-600 text-white shadow-sm'
+                          : 'text-slate-200 hover:text-white hover:bg-white/10'
+                      }`}
+                    >
+                      Manual Ingestion
+                    </button>
+                    <button
+                      onClick={() => setActiveTab('quizzes')}
+                      className={`px-3 py-1.5 rounded-lg text-xs font-bold transition ${
+                        activeTab === 'quizzes'
+                          ? 'bg-blue-600 text-white shadow-sm'
+                          : 'text-slate-200 hover:text-white hover:bg-white/10'
+                      }`}
+                    >
+                      Quiz Bank
+                    </button>
+                  </>
+                ) : (
+                  <>
+                    <button
+                      onClick={() => setActiveTab('assessments')}
+                      className={`px-3 py-1.5 rounded-lg text-xs font-bold transition ${
+                        activeTab === 'assessments'
+                          ? 'bg-teal-600 text-white shadow-sm'
+                          : 'text-slate-200 hover:text-white hover:bg-white/10'
+                      }`}
+                    >
+                      Competency Catalog
+                    </button>
+                    <button
+                      onClick={() => setActiveTab('history')}
+                      className={`px-3 py-1.5 rounded-lg text-xs font-bold transition ${
+                        activeTab === 'history'
+                          ? 'bg-teal-600 text-white shadow-sm'
+                          : 'text-slate-200 hover:text-white hover:bg-white/10'
+                      }`}
+                    >
+                      Diagnostic History
+                    </button>
+                  </>
+                )}
+              </nav>
+            )}
+
             {/* RIGHT SIDE: ESSENTIAL CONTROLS ONLY (HELP & SUPPORT, ROLE SWITCHER, PROFILE) */}
-            <div className="flex items-center gap-1.5 sm:gap-2.5 shrink-0">
+            <div className="flex items-center gap-1.5 sm:gap-2 shrink-0">
 
               {/* ── Evaluator Tour Button ── */}
               {onStartTour && (
@@ -418,21 +481,7 @@ export const Navbar: React.FC<NavbarProps> = ({
           </div>
         )}
 
-        {/* Appearance Mode Row (Dark / Light Switcher) */}
-        <div className="px-3 py-2 border-b border-blue-900/50 shrink-0">
-          <button
-            onClick={toggleTheme}
-            className="w-full flex items-center justify-between p-2.5 rounded-xl bg-white/5 hover:bg-white/10 border border-white/10 text-xs font-bold text-slate-200 transition"
-          >
-            <div className="flex items-center gap-2">
-              {isDark ? <Sun className="w-4 h-4 text-amber-300" /> : <Moon className="w-4 h-4 text-slate-300" />}
-              <span>Theme Appearance</span>
-            </div>
-            <span className="px-2 py-0.5 rounded-md text-[10px] font-black uppercase tracking-wider bg-white/10 border border-white/15 text-slate-200">
-              {isDark ? 'Dark Mode' : 'Light Mode'}
-            </span>
-          </button>
-        </div>
+
 
         {/* Scrollable Navigation Body */}
         <div className="flex-1 overflow-y-auto overscroll-contain px-3 sm:px-4 py-4 space-y-4">

@@ -15,7 +15,10 @@ import {
   Eye,
   Layers,
   ShieldCheck,
-  BookOpen
+  BookOpen,
+  Trash2,
+  Copy,
+  RotateCcw
 } from 'lucide-react';
 
 interface AdminDashboardProps {
@@ -214,6 +217,63 @@ export const AdminDashboard: React.FC<AdminDashboardProps> = ({ initialTab = 'hi
       alert('Publishing failed: ' + err.message);
     }
   };
+
+  const handleUnpublishQuiz = async (quizId: number) => {
+    try {
+      await api.unpublishQuiz(quizId);
+      await loadQuizzes();
+      setActionSuccess(`Quiz #${quizId} reverted to 'UNDER_REVIEW' for revisions.`);
+      setTimeout(() => setActionSuccess(null), 4000);
+    } catch (err: any) {
+      alert('Unpublish failed: ' + err.message);
+    }
+  };
+
+  const handleCloneQuiz = async (quizId: number) => {
+    try {
+      const cloned = await api.cloneQuiz(quizId);
+      await loadQuizzes();
+      setActionSuccess(`Created draft clone "${cloned.title}" in queue.`);
+      setTimeout(() => setActionSuccess(null), 4000);
+    } catch (err: any) {
+      alert('Clone failed: ' + err.message);
+    }
+  };
+
+  const handleDeleteQuiz = async (quizId: number) => {
+    if (!window.confirm(`Are you sure you want to permanently delete Assessment #${quizId}? This will remove all associated questions.`)) {
+      return;
+    }
+    try {
+      await api.deleteQuiz(quizId);
+      await loadQuizzes();
+      await loadPendingQuestions();
+      setActionSuccess(`Assessment #${quizId} was permanently deleted.`);
+      setTimeout(() => setActionSuccess(null), 4000);
+    } catch (err: any) {
+      alert('Delete failed: ' + err.message);
+    }
+  };
+
+  const handleDeleteDocument = async (docId: number, filename: string) => {
+    if (!window.confirm(`Are you sure you want to permanently delete manual "${filename}"?`)) {
+      return;
+    }
+    try {
+      await api.deleteDocument(docId);
+      await loadDocuments();
+      setActionSuccess(`Manual "${filename}" was deleted successfully.`);
+      setTimeout(() => setActionSuccess(null), 4000);
+    } catch (err: any) {
+      alert('Failed to delete manual: ' + err.message);
+    }
+  };
+
+  useEffect(() => {
+    if (initialTab === 'documents' || initialTab === 'quizzes' || initialTab === 'hitl') {
+      setSubTab(initialTab);
+    }
+  }, [initialTab]);
 
   return (
     <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-8">
@@ -831,6 +891,14 @@ export const AdminDashboard: React.FC<AdminDashboardProps> = ({ initialTab = 'hi
                         <Sparkles className="w-4 h-4 text-amber-300" />
                         Generate MCQs
                       </button>
+
+                      <button
+                        onClick={() => handleDeleteDocument(doc.id, doc.filename)}
+                        title="Delete Ingested Manual"
+                        className="p-2.5 bg-white hover:bg-red-50 text-slate-400 hover:text-red-600 border border-slate-200 hover:border-red-200 rounded-xl transition shadow-2xs active:scale-95"
+                      >
+                        <Trash2 className="w-4 h-4" />
+                      </button>
                     </div>
                   </div>
                 ))}
@@ -894,27 +962,53 @@ export const AdminDashboard: React.FC<AdminDashboardProps> = ({ initialTab = 'hi
                     </div>
                   </div>
 
-                  <div className="flex items-center gap-3 pt-4 border-t border-slate-100">
+                  <div className="flex flex-wrap items-center gap-2 pt-4 border-t border-slate-100">
                     <button
                       onClick={() => {
                         setSelectedQuizId(quiz.id);
                         loadPendingQuestions(quiz.id);
                         setSubTab('hitl');
                       }}
-                      className="flex-1 py-3 bg-white hover:bg-slate-50 border border-slate-300 text-slate-700 text-sm font-bold rounded-xl transition text-center shadow-2xs active:scale-95"
+                      className="flex-1 min-w-[120px] py-2.5 px-3 bg-white hover:bg-slate-50 border border-slate-300 text-slate-700 text-xs font-bold rounded-xl transition text-center shadow-2xs active:scale-95"
                     >
-                      Review HITL Items
+                      Review HITL ({quiz.pending_questions})
                     </button>
 
-                    {!isPublished && (
+                    {isPublished ? (
+                      <button
+                        onClick={() => handleUnpublishQuiz(quiz.id)}
+                        className="py-2.5 px-3 bg-amber-50 hover:bg-amber-100 border border-amber-300 text-amber-900 text-xs font-bold rounded-xl transition text-center shadow-2xs active:scale-95 flex items-center gap-1.5"
+                        title="Revert module to Under Review for revisions"
+                      >
+                        <RotateCcw className="w-3.5 h-3.5 text-amber-700" />
+                        Unpublish
+                      </button>
+                    ) : (
                       <button
                         onClick={() => handlePublishQuiz(quiz.id)}
                         disabled={quiz.approved_questions === 0}
-                        className="flex-1 py-3 bg-[#0B2545] hover:bg-slate-900 border border-slate-800 text-white text-sm font-bold rounded-xl transition shadow-xs text-center disabled:opacity-50 active:scale-95"
+                        className="flex-1 min-w-[120px] py-2.5 px-3 bg-[#0B2545] hover:bg-slate-900 border border-slate-800 text-white text-xs font-bold rounded-xl transition shadow-xs text-center disabled:opacity-50 active:scale-95"
+                        title={quiz.approved_questions === 0 ? "Approve questions in HITL before publishing" : "Make available to all officers"}
                       >
-                        Publish to Active Bank
+                        Publish ({quiz.approved_questions} Approved)
                       </button>
                     )}
+
+                    <button
+                      onClick={() => handleCloneQuiz(quiz.id)}
+                      className="p-2.5 bg-white hover:bg-slate-50 border border-slate-200 hover:border-slate-300 text-slate-600 rounded-xl transition shadow-2xs active:scale-95"
+                      title="Clone Quiz into Draft"
+                    >
+                      <Copy className="w-3.5 h-3.5" />
+                    </button>
+
+                    <button
+                      onClick={() => handleDeleteQuiz(quiz.id)}
+                      className="p-2.5 bg-white hover:bg-red-50 border border-slate-200 hover:border-red-200 text-slate-400 hover:text-red-600 rounded-xl transition shadow-2xs active:scale-95"
+                      title="Permanently Delete Assessment"
+                    >
+                      <Trash2 className="w-3.5 h-3.5" />
+                    </button>
                   </div>
                 </div>
               );
