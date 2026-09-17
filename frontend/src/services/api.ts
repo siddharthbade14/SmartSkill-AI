@@ -92,6 +92,22 @@ class ApiClient {
     return this.request<User>('/auth/me');
   }
 
+  async loginWithGoogle(payload: { email?: string; name?: string; token?: string }): Promise<AuthResponse> {
+    const data = await this.request<AuthResponse>('/auth/google', {
+      method: 'POST',
+      body: JSON.stringify(payload),
+    });
+    this.setAuth(data);
+    return data;
+  }
+
+  async forgotPassword(email: string): Promise<{ success: boolean; message: string; email_sent?: boolean }> {
+    return this.request<{ success: boolean; message: string; email_sent?: boolean }>('/auth/forgot-password', {
+      method: 'POST',
+      body: JSON.stringify({ email }),
+    });
+  }
+
   // --- Document Ingestion Endpoints ---
   async uploadDocument(title: string, file: File): Promise<DocumentDetail> {
     const formData = new FormData();
