@@ -9,18 +9,18 @@
     text-rendering: optimizeLegibility;
     -webkit-font-smoothing: antialiased;
     -moz-osx-font-smoothing: grayscale;
-    font-size: 15px; /* Slightly increased comfortable base font scale */
+    font-size: 15px;
   }
 
   body {
     margin: 0;
     min-height: 100vh;
-    background-color: #F1F5F9; /* Slate-100 canvas ensures pure white cards have crisp separation */
+    background-color: #F1F5F9;
     color: #0F172A;
   }
 }
 
-/* Highlighted Modern Navigation Bar Utilities */
+/* ─── Navigation ─────────────────────────────────────────────────────────── */
 .navbar-highlight {
   background: linear-gradient(135deg, #06162B 0%, #0B2545 55%, #0E3563 100%);
   border-bottom: 2px solid rgba(59, 130, 246, 0.4);
@@ -39,40 +39,220 @@
   box-shadow: 0 4px 24px -2px rgba(11, 37, 69, 0.3);
 }
 
+/* ─── Cards ─────────────────────────────────────────────────────────────── */
 .glass-card {
   background: #FFFFFF;
   border: 1px solid #CBD5E1;
   box-shadow: 0 1px 3px 0 rgba(15, 23, 42, 0.04), 0 6px 20px -4px rgba(15, 23, 42, 0.05);
-  transition: all 0.2s cubic-bezier(0.16, 1, 0.3, 1);
+  transition: all 0.25s cubic-bezier(0.16, 1, 0.3, 1);
 }
 
 .glass-card:hover {
   border-color: #94A3B8;
   box-shadow: 0 4px 14px 0 rgba(15, 23, 42, 0.06), 0 12px 28px -6px rgba(15, 23, 42, 0.1);
+  transform: translateY(-2px);
 }
 
-/* Tricolor National Accent Strip */
-.tricolor-accent {
-  height: 3.5px;
-  background: linear-gradient(90deg, #F97316 0%, #F59E0B 35%, #FFFFFF 50%, #10B981 65%, #059669 100%);
+/* Lift card — deep shadow on hover */
+.card-hover {
+  transition: transform 0.22s cubic-bezier(0.16, 1, 0.3, 1),
+              box-shadow 0.22s cubic-bezier(0.16, 1, 0.3, 1),
+              border-color 0.22s ease;
+}
+.card-hover:hover {
+  transform: translateY(-3px);
+  box-shadow: 0 8px 28px -6px rgba(15, 23, 42, 0.16), 0 2px 8px -2px rgba(15, 23, 42, 0.1);
+  border-color: #94A3B8;
 }
 
-/* Tabular Numbers for Time & Metrics */
-.tabular-nums {
-  font-variant-numeric: tabular-nums;
-  font-feature-settings: "tnum" 1;
-}
+/* Glow card — colored glow ring on hover */
+.card-glow-blue:hover  { box-shadow: 0 0 0 3px rgba(59,130,246,0.18), 0 8px 28px -6px rgba(11,37,69,0.18); transform: translateY(-2px); }
+.card-glow-amber:hover { box-shadow: 0 0 0 3px rgba(245,158,11,0.2), 0 8px 28px -6px rgba(120,53,15,0.12); transform: translateY(-2px); }
+.card-glow-green:hover { box-shadow: 0 0 0 3px rgba(16,185,129,0.2), 0 8px 28px -6px rgba(6,78,59,0.12);  transform: translateY(-2px); }
+.card-glow-purple:hover{ box-shadow: 0 0 0 3px rgba(139,92,246,0.2), 0 8px 28px -6px rgba(76,29,149,0.12); transform: translateY(-2px); }
 
-/* Smooth Interactive Micro-animations */
+/* ─── Buttons ────────────────────────────────────────────────────────────── */
 button, a {
   transition: all 0.15s cubic-bezier(0.16, 1, 0.3, 1);
 }
 
 button:active {
-  transform: scale(0.985);
+  transform: scale(0.97);
 }
 
-/* Crisp Icon Box Utility */
+/* Primary CTA — shimmer sweep on hover */
+.btn-primary {
+  position: relative;
+  overflow: hidden;
+  transition: background 0.2s ease, box-shadow 0.2s ease, transform 0.15s ease;
+}
+.btn-primary::after {
+  content: '';
+  position: absolute;
+  inset: 0;
+  background: linear-gradient(105deg, transparent 40%, rgba(255,255,255,0.18) 55%, transparent 70%);
+  transform: translateX(-100%);
+  transition: transform 0.45s ease;
+}
+.btn-primary:hover::after  { transform: translateX(100%); }
+.btn-primary:hover         { box-shadow: 0 4px 18px -4px rgba(11,37,69,0.5); transform: translateY(-1px); }
+.btn-primary:active        { transform: scale(0.97) translateY(0); }
+
+/* Secondary / outline button */
+.btn-outline {
+  transition: background 0.18s ease, border-color 0.18s ease, box-shadow 0.18s ease, transform 0.15s ease;
+}
+.btn-outline:hover {
+  transform: translateY(-1px);
+  box-shadow: 0 3px 12px -3px rgba(15,23,42,0.12);
+}
+
+/* Ghost / text button — subtle slide-highlight */
+.btn-ghost {
+  position: relative;
+  transition: color 0.15s ease;
+}
+.btn-ghost::after {
+  content: '';
+  position: absolute;
+  left: 0; bottom: -1px;
+  height: 1.5px;
+  width: 0;
+  background: currentColor;
+  transition: width 0.2s cubic-bezier(0.16, 1, 0.3, 1);
+}
+.btn-ghost:hover::after { width: 100%; }
+
+/* Icon button — spin / bounce on hover */
+.btn-icon { transition: transform 0.2s cubic-bezier(0.34, 1.56, 0.64, 1), background 0.15s ease; }
+.btn-icon:hover { transform: scale(1.15) rotate(8deg); }
+.btn-icon:active { transform: scale(0.95); }
+
+/* ─── Nav Tab / Sidebar Items ────────────────────────────────────────────── */
+.nav-item {
+  position: relative;
+  transition: background 0.16s ease, color 0.16s ease, transform 0.15s ease;
+}
+.nav-item::before {
+  content: '';
+  position: absolute;
+  left: 0; top: 50%;
+  width: 3px; height: 0;
+  background: #3B82F6;
+  border-radius: 0 4px 4px 0;
+  transform: translateY(-50%);
+  transition: height 0.2s cubic-bezier(0.16, 1, 0.3, 1);
+}
+.nav-item:hover { transform: translateX(2px); }
+.nav-item:hover::before { height: 60%; }
+.nav-item.active::before { height: 80%; background: #60A5FA; }
+
+/* Horizontal tab underline slide-in */
+.tab-hover {
+  position: relative;
+  transition: color 0.15s ease;
+}
+.tab-hover::after {
+  content: '';
+  position: absolute;
+  bottom: 0; left: 50%; right: 50%;
+  height: 2px;
+  background: #3B82F6;
+  border-radius: 2px 2px 0 0;
+  transition: left 0.2s cubic-bezier(0.16, 1, 0.3, 1),
+              right 0.2s cubic-bezier(0.16, 1, 0.3, 1);
+}
+.tab-hover:hover::after { left: 0; right: 0; }
+
+/* ─── Inputs ─────────────────────────────────────────────────────────────── */
+input, select, textarea {
+  transition: border-color 0.18s ease, box-shadow 0.18s ease, background 0.18s ease;
+}
+input:hover:not(:focus), select:hover:not(:focus), textarea:hover:not(:focus) {
+  border-color: #94A3B8 !important;
+}
+
+/* ─── Form items ─────────────────────────────────────────────────────────── */
+.form-item-hover {
+  transition: background 0.18s ease, border-color 0.18s ease, transform 0.18s cubic-bezier(0.16, 1, 0.3, 1);
+}
+.form-item-hover:hover {
+  transform: translateY(-1px);
+}
+
+/* ─── Landing Hero Feature Cards ─────────────────────────────────────────── */
+.feature-card {
+  transition: transform 0.25s cubic-bezier(0.16, 1, 0.3, 1),
+              box-shadow 0.25s cubic-bezier(0.16, 1, 0.3, 1),
+              border-color 0.2s ease;
+}
+.feature-card:hover {
+  transform: translateY(-4px) scale(1.01);
+  box-shadow: 0 12px 32px -8px rgba(15, 23, 42, 0.14);
+}
+.feature-card:hover .feature-icon {
+  transform: rotate(-6deg) scale(1.12);
+}
+.feature-icon {
+  transition: transform 0.25s cubic-bezier(0.34, 1.56, 0.64, 1);
+}
+
+/* ─── Pipeline Step Cards ─────────────────────────────────────────────────── */
+.pipeline-card {
+  transition: transform 0.2s cubic-bezier(0.16, 1, 0.3, 1),
+              box-shadow 0.2s ease,
+              border-color 0.2s ease;
+}
+.pipeline-card:hover {
+  transform: translateY(-3px);
+  box-shadow: 0 6px 20px -6px rgba(15, 23, 42, 0.15);
+}
+
+/* ─── Demo Login Buttons ─────────────────────────────────────────────────── */
+.demo-btn {
+  transition: background 0.18s ease, border-color 0.18s ease,
+              box-shadow 0.18s ease, transform 0.18s cubic-bezier(0.16,1,0.3,1);
+}
+.demo-btn:hover {
+  transform: translateX(3px);
+  box-shadow: 0 4px 12px -4px rgba(15,23,42,0.14);
+}
+
+/* ─── Google SSO Button ──────────────────────────────────────────────────── */
+.btn-google {
+  position: relative;
+  overflow: hidden;
+  transition: background 0.18s ease, border-color 0.18s ease,
+              box-shadow 0.2s ease, transform 0.15s ease;
+}
+.btn-google:hover {
+  transform: translateY(-1px);
+  box-shadow: 0 4px 14px -4px rgba(66,133,244,0.3);
+  border-color: #4285F4;
+}
+.btn-google:active { transform: scale(0.97); }
+
+/* ─── Floating Action / Chat Button ─────────────────────────────────────── */
+.fab-hover {
+  transition: transform 0.2s cubic-bezier(0.34, 1.56, 0.64, 1), box-shadow 0.2s ease;
+}
+.fab-hover:hover {
+  transform: scale(1.1) rotate(-5deg);
+  box-shadow: 0 8px 24px -6px rgba(11,37,69,0.4);
+}
+
+/* ─── Tricolor / Accent ──────────────────────────────────────────────────── */
+.tricolor-accent {
+  height: 3.5px;
+  background: linear-gradient(90deg, #F97316 0%, #F59E0B 35%, #FFFFFF 50%, #10B981 65%, #059669 100%);
+}
+
+/* ─── Utility ────────────────────────────────────────────────────────────── */
+.tabular-nums {
+  font-variant-numeric: tabular-nums;
+  font-feature-settings: "tnum" 1;
+}
+
 .icon-box {
   display: inline-flex;
   align-items: center;
@@ -80,39 +260,116 @@ button:active {
   border-radius: 0.75rem;
   border-width: 1px;
   flex-shrink: 0;
+  transition: transform 0.2s cubic-bezier(0.34, 1.56, 0.64, 1), background 0.18s ease;
+}
+.icon-box:hover {
+  transform: scale(1.08) rotate(-4deg);
 }
 
-/* Custom Sleek Scrollbar */
-::-webkit-scrollbar {
-  width: 6px;
-  height: 6px;
-}
+/* ─── Scrollbar ──────────────────────────────────────────────────────────── */
+::-webkit-scrollbar { width: 6px; height: 6px; }
+::-webkit-scrollbar-track { background: transparent; }
+::-webkit-scrollbar-thumb { background: #CBD5E1; border-radius: 9999px; }
+::-webkit-scrollbar-thumb:hover { background: #94A3B8; }
 
-::-webkit-scrollbar-track {
-  background: transparent;
-}
-
-::-webkit-scrollbar-thumb {
-  background: #CBD5E1;
-  border-radius: 9999px;
-}
-
-::-webkit-scrollbar-thumb:hover {
-  background: #94A3B8;
-}
-
-/* Focus Ring Accessibility */
+/* ─── Focus Ring ─────────────────────────────────────────────────────────── */
 *:focus-visible {
   outline: 2px solid #0B2545;
   outline-offset: 2px;
 }
 
-/* Pulsing subtle indicator */
+/* ─── Keyframes ──────────────────────────────────────────────────────────── */
 @keyframes subtlePulse {
   0%, 100% { opacity: 1; transform: scale(1); }
-  50% { opacity: 0.82; transform: scale(1.03); }
+  50%       { opacity: 0.82; transform: scale(1.03); }
 }
-
 .animate-subtle-pulse {
   animation: subtlePulse 2s cubic-bezier(0.4, 0, 0.6, 1) infinite;
 }
+
+@keyframes fadeSlideUp {
+  from { opacity: 0; transform: translateY(8px); }
+  to   { opacity: 1; transform: translateY(0); }
+}
+.animate-fade-up {
+  animation: fadeSlideUp 0.3s cubic-bezier(0.16, 1, 0.3, 1) both;
+}
+
+@keyframes shimmer {
+  0%   { background-position: -200% center; }
+  100% { background-position:  200% center; }
+}
+.animate-shimmer {
+  background: linear-gradient(90deg, #E2E8F0 25%, #F8FAFC 50%, #E2E8F0 75%);
+  background-size: 200% auto;
+  animation: shimmer 1.6s linear infinite;
+}
+
+@keyframes bounceIn {
+  0%   { transform: scale(0.85); opacity: 0; }
+  60%  { transform: scale(1.05); opacity: 1; }
+  100% { transform: scale(1); }
+}
+.animate-bounce-in {
+  animation: bounceIn 0.35s cubic-bezier(0.34, 1.56, 0.64, 1) both;
+}
+
+/* ─── Tooltip (pure CSS) ─────────────────────────────────────────────────── */
+[data-tip] {
+  position: relative;
+}
+[data-tip]::before {
+  content: attr(data-tip);
+  position: absolute;
+  bottom: calc(100% + 6px);
+  left: 50%;
+  transform: translateX(-50%) scale(0.85);
+  background: #0F172A;
+  color: #F8FAFC;
+  font-size: 11px;
+  font-weight: 600;
+  padding: 4px 8px;
+  border-radius: 6px;
+  white-space: nowrap;
+  pointer-events: none;
+  opacity: 0;
+  transition: opacity 0.15s ease, transform 0.15s cubic-bezier(0.16, 1, 0.3, 1);
+  z-index: 100;
+}
+[data-tip]:hover::before {
+  opacity: 1;
+  transform: translateX(-50%) scale(1);
+}
+
+/* ─── Link underline hover ───────────────────────────────────────────────── */
+.link-underline {
+  position: relative;
+  text-decoration: none;
+}
+.link-underline::after {
+  content: '';
+  position: absolute;
+  left: 0; bottom: -1px;
+  width: 0; height: 1.5px;
+  background: currentColor;
+  transition: width 0.22s cubic-bezier(0.16, 1, 0.3, 1);
+}
+.link-underline:hover::after { width: 100%; }
+
+/* ─── Row hover (tables / lists) ────────────────────────────────────────── */
+.row-hover {
+  transition: background 0.14s ease;
+}
+.row-hover:hover {
+  background: rgba(241, 245, 249, 0.9) !important;
+}
+
+/* ─── Badge / Tag Hover ──────────────────────────────────────────────────── */
+.badge-hover {
+  transition: transform 0.18s cubic-bezier(0.34, 1.56, 0.64, 1), box-shadow 0.18s ease;
+}
+.badge-hover:hover {
+  transform: scale(1.06);
+  box-shadow: 0 2px 8px -2px rgba(15,23,42,0.15);
+}
+

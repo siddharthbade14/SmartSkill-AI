@@ -216,7 +216,7 @@ export const AuthModal: React.FC<AuthModalProps> = ({ isOpen, onClose, onSuccess
                   type="button"
                   onClick={handleGoogleSignIn}
                   disabled={googleLoading || loading}
-                  className="w-full py-2.5 px-4 bg-white hover:bg-slate-50 border border-slate-300 hover:border-slate-400 rounded-xl text-slate-700 text-sm font-semibold transition shadow-2xs flex items-center justify-center gap-3 active:scale-98 disabled:opacity-50"
+                  className="btn-google w-full py-2.5 px-4 bg-white hover:bg-slate-50 border border-slate-300 rounded-xl text-slate-700 text-sm font-semibold shadow-2xs flex items-center justify-center gap-3 disabled:opacity-50"
                 >
                   {googleLoading ? (
                     <>
@@ -248,7 +248,7 @@ export const AuthModal: React.FC<AuthModalProps> = ({ isOpen, onClose, onSuccess
                     type="button"
                     onClick={() => handleDemoLogin('admin@mospi.gov.in', 'Admin@123')}
                     disabled={loading || googleLoading}
-                    className="flex items-center justify-between p-2.5 bg-white hover:bg-blue-50/60 border border-blue-200 hover:border-blue-400 rounded-lg text-left transition shadow-2xs group active:scale-98"
+                    className="demo-btn flex items-center justify-between p-2.5 bg-white hover:bg-blue-50/60 border border-blue-200 hover:border-blue-400 rounded-lg text-left shadow-2xs group"
                   >
                     <div className="flex items-center gap-2.5">
                       <div className="w-7 h-7 rounded-lg bg-blue-50 border border-blue-200 text-blue-700 flex items-center justify-center flex-shrink-0">
@@ -266,7 +266,7 @@ export const AuthModal: React.FC<AuthModalProps> = ({ isOpen, onClose, onSuccess
                     type="button"
                     onClick={() => handleDemoLogin('officer@mospi.gov.in', 'Learner@123')}
                     disabled={loading || googleLoading}
-                    className="flex items-center justify-between p-2.5 bg-white hover:bg-emerald-50/60 border border-emerald-200 hover:border-emerald-400 rounded-lg text-left transition shadow-2xs group active:scale-98"
+                    className="demo-btn flex items-center justify-between p-2.5 bg-white hover:bg-emerald-50/60 border border-emerald-200 hover:border-emerald-400 rounded-lg text-left shadow-2xs group"
                   >
                     <div className="flex items-center gap-2.5">
                       <div className="w-7 h-7 rounded-lg bg-emerald-50 border border-emerald-200 text-emerald-700 flex items-center justify-center flex-shrink-0">
@@ -398,7 +398,7 @@ export const AuthModal: React.FC<AuthModalProps> = ({ isOpen, onClose, onSuccess
                 <button
                   type="submit"
                   disabled={loading || googleLoading}
-                  className="w-full py-3 bg-[#0B2545] hover:bg-slate-900 border border-slate-800 text-white text-sm font-bold rounded-xl transition shadow-md mt-2 disabled:opacity-50 active:scale-95 flex items-center justify-center gap-2"
+                  className="btn-primary w-full py-3 bg-[#0B2545] hover:bg-slate-900 border border-slate-800 text-white text-sm font-bold rounded-xl shadow-md mt-2 disabled:opacity-50 flex items-center justify-center gap-2"
                 >
                   {loading ? (
                     <>
@@ -419,7 +419,7 @@ export const AuthModal: React.FC<AuthModalProps> = ({ isOpen, onClose, onSuccess
                     setError(null);
                     setForgotSuccess(null);
                   }}
-                  className="text-xs text-slate-600 hover:text-[#0B2545] font-semibold"
+                  className="btn-ghost text-xs text-slate-600 hover:text-[#0B2545] font-semibold"
                 >
                   {mode === 'register'
                     ? 'Already registered? Sign in here'

@@ -118,7 +118,7 @@ export function App() {
                 <div className="flex flex-wrap items-center justify-center gap-4 mb-16">
                   <button
                     onClick={() => handleSwitchRole('admin')}
-                    className="px-7 py-4 bg-[#0B2545] hover:bg-slate-900 border border-slate-800 text-white text-sm sm:text-base font-bold rounded-xl transition shadow-md flex items-center gap-3 active:scale-95"
+                    className="btn-primary px-7 py-4 bg-[#0B2545] hover:bg-slate-900 border border-slate-800 text-white text-sm sm:text-base font-bold rounded-xl shadow-md flex items-center gap-3"
                   >
                     <ShieldCheck className="w-5 h-5 text-amber-400" />
                     Enter as Admin Trainer (HITL Curation)
@@ -126,7 +126,7 @@ export function App() {
 
                   <button
                     onClick={() => handleSwitchRole('learner')}
-                    className="px-7 py-4 bg-[#0F766E] hover:bg-teal-800 border border-teal-800 text-white text-sm sm:text-base font-bold rounded-xl transition shadow-md flex items-center gap-3 active:scale-95"
+                    className="btn-primary px-7 py-4 bg-[#0F766E] hover:bg-teal-800 border border-teal-800 text-white text-sm sm:text-base font-bold rounded-xl shadow-md flex items-center gap-3"
                   >
                     <BookOpen className="w-5 h-5 text-emerald-300" />
                     Enter as Learner Officer (Assessment & iGOT)
@@ -135,8 +135,8 @@ export function App() {
 
                 {/* Modern 4 Pillars Grid with Distinct Subtle Background Tints */}
                 <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-6 text-left mb-16">
-                  <div className="bg-gradient-to-br from-white to-blue-50/60 p-6 rounded-2xl border border-blue-200/80 shadow-xs hover:border-blue-300 transition">
-                    <div className="w-12 h-12 rounded-xl bg-blue-100/80 border border-blue-300 text-blue-900 flex items-center justify-center mb-4 shadow-2xs">
+                  <div className="feature-card card-glow-blue bg-gradient-to-br from-white to-blue-50/60 p-6 rounded-2xl border border-blue-200/80 shadow-xs">
+                    <div className="feature-icon w-12 h-12 rounded-xl bg-blue-100/80 border border-blue-300 text-blue-900 flex items-center justify-center mb-4 shadow-2xs">
                       <FileText className="w-6 h-6" />
                     </div>
                     <h3 className="text-base font-bold text-slate-900 mb-2 font-sans">OCR & Tabular Ingestion</h3>
@@ -145,8 +145,8 @@ export function App() {
                     </p>
                   </div>
 
-                  <div className="bg-gradient-to-br from-white to-amber-50/60 p-6 rounded-2xl border border-amber-200/80 shadow-xs hover:border-amber-300 transition">
-                    <div className="w-12 h-12 rounded-xl bg-amber-100/80 border border-amber-300 text-amber-900 flex items-center justify-center mb-4 shadow-2xs">
+                  <div className="feature-card card-glow-amber bg-gradient-to-br from-white to-amber-50/60 p-6 rounded-2xl border border-amber-200/80 shadow-xs">
+                    <div className="feature-icon w-12 h-12 rounded-xl bg-amber-100/80 border border-amber-300 text-amber-900 flex items-center justify-center mb-4 shadow-2xs">
                       <Brain className="w-6 h-6" />
                     </div>
                     <h3 className="text-base font-bold text-slate-900 mb-2 font-sans">Zero-Hallucination AI</h3>
@@ -155,8 +155,8 @@ export function App() {
                     </p>
                   </div>
 
-                  <div className="bg-gradient-to-br from-white to-purple-50/60 p-6 rounded-2xl border border-purple-200/80 shadow-xs hover:border-purple-300 transition">
-                    <div className="w-12 h-12 rounded-xl bg-purple-100/80 border border-purple-300 text-purple-900 flex items-center justify-center mb-4 shadow-2xs">
+                  <div className="feature-card card-glow-purple bg-gradient-to-br from-white to-purple-50/60 p-6 rounded-2xl border border-purple-200/80 shadow-xs">
+                    <div className="feature-icon w-12 h-12 rounded-xl bg-purple-100/80 border border-purple-300 text-purple-900 flex items-center justify-center mb-4 shadow-2xs">
                       <CheckCircle2 className="w-6 h-6" />
                     </div>
                     <h3 className="text-base font-bold text-slate-900 mb-2 font-sans">Admin HITL Verification</h3>
@@ -165,8 +165,8 @@ export function App() {
                     </p>
                   </div>
 
-                  <div className="bg-gradient-to-br from-white to-emerald-50/60 p-6 rounded-2xl border border-emerald-200/80 shadow-xs hover:border-emerald-300 transition">
-                    <div className="w-12 h-12 rounded-xl bg-emerald-100/80 border border-emerald-300 text-emerald-900 flex items-center justify-center mb-4 shadow-2xs">
+                  <div className="feature-card card-glow-green bg-gradient-to-br from-white to-emerald-50/60 p-6 rounded-2xl border border-emerald-200/80 shadow-xs">
+                    <div className="feature-icon w-12 h-12 rounded-xl bg-emerald-100/80 border border-emerald-300 text-emerald-900 flex items-center justify-center mb-4 shadow-2xs">
                       <Award className="w-6 h-6" />
                     </div>
                     <h3 className="text-base font-bold text-slate-900 mb-2 font-sans">iGOT Remediation Engine</h3>
@@ -193,7 +193,7 @@ export function App() {
                   </div>
 
                   <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-4">
-                    <div className="p-5 rounded-xl bg-sky-50/70 border border-sky-200/90 shadow-2xs">
+                    <div className="pipeline-card p-5 rounded-xl bg-sky-50/70 border border-sky-200/90 shadow-2xs">
                       <div className="flex items-center gap-2.5 mb-2.5">
                         <span className="w-6 h-6 rounded-lg bg-[#0B2545] text-white flex items-center justify-center text-xs font-black shadow-2xs">
                           1
@@ -205,7 +205,7 @@ export function App() {
                       </p>
                     </div>
 
-                    <div className="p-5 rounded-xl bg-indigo-50/70 border border-indigo-200/90 shadow-2xs">
+                    <div className="pipeline-card p-5 rounded-xl bg-indigo-50/70 border border-indigo-200/90 shadow-2xs">
                       <div className="flex items-center gap-2.5 mb-2.5">
                         <span className="w-6 h-6 rounded-lg bg-[#0B2545] text-white flex items-center justify-center text-xs font-black shadow-2xs">
                           2
@@ -217,7 +217,7 @@ export function App() {
                       </p>
                     </div>
 
-                    <div className="p-5 rounded-xl bg-amber-50/70 border border-amber-200/90 shadow-2xs">
+                    <div className="pipeline-card p-5 rounded-xl bg-amber-50/70 border border-amber-200/90 shadow-2xs">
                       <div className="flex items-center gap-2.5 mb-2.5">
                         <span className="w-6 h-6 rounded-lg bg-[#0B2545] text-white flex items-center justify-center text-xs font-black shadow-2xs">
                           3
@@ -229,7 +229,7 @@ export function App() {
                       </p>
                     </div>
 
-                    <div className="p-5 rounded-xl bg-emerald-50/70 border border-emerald-200/90 shadow-2xs">
+                    <div className="pipeline-card p-5 rounded-xl bg-emerald-50/70 border border-emerald-200/90 shadow-2xs">
                       <div className="flex items-center gap-2.5 mb-2.5">
                         <span className="w-6 h-6 rounded-lg bg-[#0B2545] text-white flex items-center justify-center text-xs font-black shadow-2xs">
                           4
