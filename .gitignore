@@ -52,3 +52,6 @@ dist/
 *.swo
 .DS_Store
 Thumbs.db
+
+.vercel
+.env*

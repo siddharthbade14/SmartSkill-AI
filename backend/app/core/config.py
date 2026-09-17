@@ -52,6 +52,34 @@ class Settings(BaseSettings):
         extra="ignore"
     )
 
+    @field_validator("ACCESS_TOKEN_EXPIRE_MINUTES", mode="before")
+    @classmethod
+    def parse_access_token_expire(cls, v):
+        if v is None or v == "":
+            return 60 * 24
+        return int(v)
+
+    @field_validator("GMAIL_SMTP_PORT", mode="before")
+    @classmethod
+    def parse_gmail_port(cls, v):
+        if v is None or v == "":
+            return 587
+        return int(v)
+
+    @field_validator("GEMINI_TEMPERATURE", mode="before")
+    @classmethod
+    def parse_gemini_temp(cls, v):
+        if v is None or v == "":
+            return 0.0
+        return float(v)
+
+    @field_validator("MAX_UPLOAD_SIZE_MB", mode="before")
+    @classmethod
+    def parse_max_upload_size(cls, v):
+        if v is None or v == "":
+            return 50
+        return int(v)
+
 
 settings = Settings()
 
