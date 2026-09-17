@@ -91,14 +91,8 @@ export function AppInner() {
         setCurrentUser(stored);
         setActiveTab(stored.role === 'admin' ? 'hitl' : 'assessments');
       } else {
-        // Automatically sign in as default Admin Trainer for immediate zero-friction evaluation
-        try {
-          const auth = await api.login('admin@mospi.gov.in', 'Admin@123');
-          setCurrentUser(auth.user);
-          setActiveTab('hitl');
-        } catch {
-          // If backend is not seeded yet, leave as unauthenticated landing
-        }
+        // Unauthenticated visitor: stay on official portal landing page
+        setCurrentUser(null);
       }
     } catch (err) {
       console.error('Auth initialization issue:', err);

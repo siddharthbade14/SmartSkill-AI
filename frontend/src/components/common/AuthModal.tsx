@@ -2,8 +2,6 @@ import React, { useState } from 'react';
 import { api } from '../../services/api';
 import type { User } from '../../types';
 import { 
-  ShieldCheck, 
-  UserCheck, 
   Lock, 
   Mail, 
   User as UserIcon, 
@@ -13,7 +11,6 @@ import {
   X, 
   ArrowLeft,
   KeyRound,
-  Sparkles,
   Loader2,
   Copy,
   Check,
@@ -138,22 +135,6 @@ export const AuthModal: React.FC<AuthModalProps> = ({ isOpen, onClose, onSuccess
       }
     } catch (err: any) {
       setError(err.message || 'Authentication operation failed. Please verify credentials.');
-    } finally {
-      setLoading(false);
-    }
-  };
-
-  const handleDemoLogin = async (demoEmail: string, demoPass: string) => {
-    setError(null);
-    setForgotSuccess(null);
-    setLoading(true);
-    try {
-      const auth = await api.login(demoEmail, demoPass);
-      toast.success('Demo Evaluator Signed In', `Welcome, ${auth.user.full_name}`);
-      onSuccess(auth.user);
-      onClose();
-    } catch (err: any) {
-      setError(err.message || 'Demo authentication failed.');
     } finally {
       setLoading(false);
     }
@@ -496,55 +477,10 @@ export const AuthModal: React.FC<AuthModalProps> = ({ isOpen, onClose, onSuccess
                 </button>
               </div>
 
-              {/* Quick 1-Click Demo Evaluation Buttons */}
-              <div className="mb-5 p-3.5 bg-amber-50/80 border border-amber-200 rounded-xl">
-                <div className="text-[11px] font-bold uppercase tracking-wider text-amber-900 mb-2.5 flex items-center gap-1.5">
-                  <Sparkles className="w-3.5 h-3.5 text-amber-600" />
-                  <span>One-Click Evaluator Demo Sign-In:</span>
-                </div>
-                <div className="grid grid-cols-1 gap-2">
-                  <button
-                    type="button"
-                    onClick={() => handleDemoLogin('admin@mospi.gov.in', 'Admin@123')}
-                    disabled={loading || googleLoading}
-                    className="demo-btn flex items-center justify-between p-2.5 bg-white hover:bg-blue-50/60 border border-blue-200 hover:border-blue-400 rounded-lg text-left shadow-2xs group"
-                  >
-                    <div className="flex items-center gap-2.5">
-                      <div className="w-7 h-7 rounded-lg bg-blue-50 border border-blue-200 text-blue-700 flex items-center justify-center flex-shrink-0">
-                        <ShieldCheck className="w-4 h-4 text-blue-700" />
-                      </div>
-                      <div>
-                        <div className="text-xs font-bold text-slate-900 leading-tight">Admin Trainer (NSSTA MoSPI)</div>
-                        <div className="text-[11px] text-slate-500 font-medium leading-tight">Dr. Arvind Saxena • admin@mospi.gov.in</div>
-                      </div>
-                    </div>
-                    <span className="text-[11px] font-bold text-blue-700 group-hover:translate-x-0.5 transition">Login →</span>
-                  </button>
-
-                  <button
-                    type="button"
-                    onClick={() => handleDemoLogin('officer@mospi.gov.in', 'Learner@123')}
-                    disabled={loading || googleLoading}
-                    className="demo-btn flex items-center justify-between p-2.5 bg-white hover:bg-emerald-50/60 border border-emerald-200 hover:border-emerald-400 rounded-lg text-left shadow-2xs group"
-                  >
-                    <div className="flex items-center gap-2.5">
-                      <div className="w-7 h-7 rounded-lg bg-emerald-50 border border-emerald-200 text-emerald-700 flex items-center justify-center flex-shrink-0">
-                        <UserCheck className="w-4 h-4 text-emerald-700" />
-                      </div>
-                      <div>
-                        <div className="text-xs font-bold text-slate-900 leading-tight">Learner Officer (Field Operations)</div>
-                        <div className="text-[11px] text-slate-500 font-medium leading-tight">Pooja Sharma • officer@mospi.gov.in</div>
-                      </div>
-                    </div>
-                    <span className="text-[11px] font-bold text-emerald-700 group-hover:translate-x-0.5 transition">Login →</span>
-                  </button>
-                </div>
-              </div>
-
-              <div className="relative flex items-center justify-center my-4">
+              <div className="relative flex items-center justify-center my-5">
                 <div className="border-t border-slate-200 w-full"></div>
                 <span className="bg-white px-3 text-[11px] font-bold text-slate-400 uppercase tracking-wider absolute">
-                  Or use email credentials
+                  Or sign in with official credentials
                 </span>
               </div>
 
