@@ -229,13 +229,18 @@ export const Navbar: React.FC<NavbarProps> = ({
               {/* ── Dark Mode Toggle ── */}
               <button
                 onClick={toggleTheme}
-                className="theme-toggle p-2 rounded-xl bg-white/10 hover:bg-white/20 border border-white/20 text-white shadow-xs"
+                className="theme-toggle inline-flex items-center gap-1.5 px-3 py-2 rounded-xl border text-xs font-bold shadow-xs transition"
+                style={{
+                  background: isDark ? 'rgba(251,191,36,0.18)' : 'rgba(255,255,255,0.12)',
+                  borderColor: isDark ? 'rgba(251,191,36,0.45)' : 'rgba(255,255,255,0.22)',
+                  color: isDark ? '#FDE68A' : '#CBD5E1',
+                }}
                 title={isDark ? 'Switch to Light Mode' : 'Switch to Dark Mode'}
                 aria-label="Toggle dark mode"
               >
                 {isDark
-                  ? <Sun className="w-4 h-4 text-amber-300" />
-                  : <Moon className="w-4 h-4 text-slate-300" />}
+                  ? <><Sun className="w-4 h-4 text-amber-300" /><span className="hidden sm:inline">Light</span></>
+                  : <><Moon className="w-4 h-4 text-slate-300" /><span className="hidden sm:inline">Dark</span></>}
               </button>
 
               {/* Help & Support Button */}
