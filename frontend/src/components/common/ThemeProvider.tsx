@@ -19,7 +19,12 @@ export const useTheme = (): ThemeContextValue => {
 export const ThemeProvider: React.FC<{ children: React.ReactNode }> = ({ children }) => {
   const [theme, setTheme] = useState<Theme>(() => {
     try {
-      return (localStorage.getItem('smartskill-theme') as Theme) || 'light';
+      const saved = localStorage.getItem('smartskill-theme') as Theme | null;
+      if (saved === 'dark' || saved === 'light') return saved;
+      if (typeof window !== 'undefined' && window.matchMedia && window.matchMedia('(prefers-color-scheme: dark)').matches) {
+        return 'dark';
+      }
+      return 'light';
     } catch {
       return 'light';
     }
@@ -29,8 +34,12 @@ export const ThemeProvider: React.FC<{ children: React.ReactNode }> = ({ childre
     const root = document.documentElement;
     if (theme === 'dark') {
       root.classList.add('dark');
+      root.setAttribute('data-theme', 'dark');
+      root.style.colorScheme = 'dark';
     } else {
       root.classList.remove('dark');
+      root.setAttribute('data-theme', 'light');
+      root.style.colorScheme = 'light';
     }
     try { localStorage.setItem('smartskill-theme', theme); } catch {}
   }, [theme]);

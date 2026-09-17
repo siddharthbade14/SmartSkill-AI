@@ -864,3 +864,244 @@ html.dark .skeleton-card { background: #131D2E; border-color: #1E3A5F; }
   background: linear-gradient(135deg, rgba(59,130,246,.04) 0%, rgba(16,185,129,.04) 50%, rgba(245,158,11,.04) 100%);
   pointer-events: none;
 }
+
+/* ═══════════════════════════════════════════════════════════════════════════
+   §21  PREMIUM DARK MODE COMPLETE SUITE (OBSIDIAN & DEEP SLATE)
+══════════════════════════════════════════════════════════════════════════════ */
+html.dark {
+  color-scheme: dark;
+}
+
+html.dark body {
+  background-color: #070B14 !important;
+  color: #F1F5F9 !important;
+  transition: background-color 0.25s ease, color 0.25s ease;
+}
+
+/* Core background overrides */
+html.dark .min-h-screen,
+html.dark main,
+html.dark .bg-slate-100 {
+  background-color: #070B14 !important;
+}
+
+/* Card surfaces: Rich dark slate obsidian instead of stark white */
+html.dark .bg-white {
+  background-color: #0E1626 !important;
+  border-color: #1E2B45 !important;
+  color: #F1F5F9 !important;
+}
+
+html.dark .bg-slate-50 {
+  background-color: #0B1120 !important;
+}
+
+html.dark .bg-slate-200 {
+  background-color: #1A263D !important;
+}
+
+/* Gradients on cards */
+html.dark .bg-gradient-to-br.from-white {
+  background-image: linear-gradient(to bottom right, #0F1A2E, #0A1120) !important;
+  border-color: #1E2E4A !important;
+}
+
+/* Borders */
+html.dark .border-slate-200,
+html.dark .border-slate-300,
+html.dark .border-slate-100 {
+  border-color: #1E2B45 !important;
+}
+
+/* Text Hierarchy */
+html.dark .text-slate-900 {
+  color: #F8FAFC !important;
+}
+html.dark .text-slate-800 {
+  color: #EDF2F7 !important;
+}
+html.dark .text-slate-700 {
+  color: #CBD5E1 !important;
+}
+html.dark .text-slate-600 {
+  color: #94A3B8 !important;
+}
+html.dark .text-slate-500 {
+  color: #64748B !important;
+}
+html.dark .text-slate-400 {
+  color: #475569 !important;
+}
+
+/* Card Glows in Dark Mode */
+html.dark .card-glow-blue {
+  box-shadow: 0 4px 20px -2px rgba(59,130,246,0.22), 0 0 0 1px rgba(59,130,246,0.35) !important;
+}
+html.dark .card-glow-amber {
+  box-shadow: 0 4px 20px -2px rgba(245,158,11,0.22), 0 0 0 1px rgba(245,158,11,0.35) !important;
+}
+html.dark .card-glow-purple {
+  box-shadow: 0 4px 20px -2px rgba(139,92,246,0.22), 0 0 0 1px rgba(139,92,246,0.35) !important;
+}
+html.dark .card-glow-green {
+  box-shadow: 0 4px 20px -2px rgba(16,185,129,0.22), 0 0 0 1px rgba(16,185,129,0.35) !important;
+}
+
+/* Feature cards in dark mode */
+html.dark .feature-card {
+  background: #0E1626 !important;
+  border-color: #1E2E4A !important;
+}
+html.dark .feature-card:hover {
+  transform: translateY(-4px) !important;
+  box-shadow: 0 16px 36px -8px rgba(0,0,0,0.6), 0 0 0 1px rgba(96,165,250,0.35) !important;
+}
+
+/* Pipeline cards & strips */
+html.dark .pipeline-card {
+  background-color: #0E1626 !important;
+  border-color: #1E2D47 !important;
+}
+
+/* Themed Tint Banners & Strips */
+html.dark .bg-amber-50,
+html.dark .bg-amber-50\/70,
+html.dark .bg-amber-50\/80 {
+  background-color: rgba(245, 158, 11, 0.09) !important;
+  border-color: rgba(245, 158, 11, 0.30) !important;
+}
+html.dark .text-amber-900 { color: #FDE68A !important; }
+html.dark .text-amber-800 { color: #FCD34D !important; }
+html.dark .text-amber-700 { color: #FBBF24 !important; }
+
+html.dark .bg-blue-50,
+html.dark .bg-blue-50\/60,
+html.dark .bg-blue-50\/25 {
+  background-color: rgba(59, 130, 246, 0.09) !important;
+  border-color: rgba(59, 130, 246, 0.30) !important;
+}
+html.dark .text-blue-900 { color: #BFDBFE !important; }
+html.dark .text-blue-800 { color: #93C5FD !important; }
+html.dark .text-blue-700 { color: #60A5FA !important; }
+
+html.dark .bg-emerald-50,
+html.dark .bg-emerald-50\/60,
+html.dark .bg-emerald-50\/70 {
+  background-color: rgba(16, 185, 129, 0.09) !important;
+  border-color: rgba(16, 185, 129, 0.30) !important;
+}
+html.dark .text-emerald-900 { color: #A7F3D0 !important; }
+html.dark .text-emerald-800 { color: #6EE7B7 !important; }
+html.dark .text-emerald-700 { color: #34D399 !important; }
+
+html.dark .bg-purple-50,
+html.dark .bg-purple-50\/60 {
+  background-color: rgba(139, 92, 246, 0.09) !important;
+  border-color: rgba(139, 92, 246, 0.30) !important;
+}
+html.dark .text-purple-900 { color: #DDD6FE !important; }
+html.dark .text-purple-800 { color: #C4B5FD !important; }
+html.dark .text-purple-700 { color: #A78BFA !important; }
+
+/* Inputs & Form elements in dark mode */
+html.dark input,
+html.dark textarea,
+html.dark select {
+  background-color: #090E1A !important;
+  border-color: #243552 !important;
+  color: #F8FAFC !important;
+}
+html.dark input::placeholder,
+html.dark textarea::placeholder {
+  color: #64748B !important;
+}
+html.dark input:focus,
+html.dark textarea:focus,
+html.dark select:focus {
+  border-color: #3B82F6 !important;
+  box-shadow: 0 0 0 3px rgba(59, 130, 246, 0.25) !important;
+}
+
+/* Modals & Dialogs */
+html.dark .fixed.inset-0.bg-slate-900\/60 {
+  background-color: rgba(3, 7, 18, 0.82) !important;
+}
+
+/* Demo buttons in login modal */
+html.dark .demo-btn {
+  background-color: #0B1220 !important;
+  border-color: #1E2D47 !important;
+}
+html.dark .demo-btn:hover {
+  background-color: #131E33 !important;
+  border-color: #3B82F6 !important;
+}
+
+/* Google Sign-in button */
+html.dark .btn-google {
+  background-color: #0E1626 !important;
+  border-color: #243552 !important;
+  color: #E2E8F0 !important;
+}
+html.dark .btn-google:hover {
+  background-color: #141F36 !important;
+  border-color: #3B82F6 !important;
+}
+
+/* Tables & Lists */
+html.dark table {
+  color: #E2E8F0 !important;
+}
+html.dark th {
+  background-color: #0B1120 !important;
+  color: #94A3B8 !important;
+  border-color: #1E2D47 !important;
+}
+html.dark td {
+  border-color: #1E2D47 !important;
+}
+html.dark tr:hover td {
+  background-color: rgba(255,255,255,0.03) !important;
+}
+
+/* Stat section */
+html.dark .stat-section {
+  background-color: #080D18 !important;
+  border-color: #1A263D !important;
+}
+html.dark .stat-card {
+  background-color: #0E1626 !important;
+  border-color: #1E2D47 !important;
+}
+
+/* Footer in dark mode */
+html.dark footer {
+  background-color: #040710 !important;
+  border-color: #141D2E !important;
+}
+html.dark footer .bg-slate-100 {
+  background-color: #0E1626 !important;
+  border-color: #1E2D47 !important;
+}
+
+/* Theme toggle button styling in navbar */
+html.dark .theme-toggle {
+  box-shadow: 0 0 14px rgba(251, 191, 36, 0.35) !important;
+}
+
+/* Custom scrollbars in dark mode */
+html.dark ::-webkit-scrollbar {
+  width: 8px;
+  height: 8px;
+}
+html.dark ::-webkit-scrollbar-track {
+  background: #070B14;
+}
+html.dark ::-webkit-scrollbar-thumb {
+  background: #1E2B45;
+  border-radius: 4px;
+}
+html.dark ::-webkit-scrollbar-thumb:hover {
+  background: #334155;
+}
+
