@@ -98,24 +98,28 @@ export function App() {
           ) : !currentUser ? (
             /* Unauthenticated Landing Hero */
             <div className="relative overflow-hidden">
-              {/* Subtle ambient light gradient in background */}
+              {/* Ambient glowing orb blobs */}
+              <div className="hero-orb hero-orb-1 animate-orb-1" />
+              <div className="hero-orb hero-orb-2 animate-orb-2" />
+              <div className="hero-orb hero-orb-3 animate-orb-3" />
               <div className="absolute top-0 left-1/2 -translate-x-1/2 w-full max-w-7xl h-96 bg-gradient-to-b from-blue-100/60 via-indigo-50/30 to-transparent pointer-events-none" />
 
               <div className="max-w-6xl mx-auto px-4 py-16 sm:py-20 text-center relative z-10">
-                <div className="inline-flex items-center gap-2 px-4 py-2 rounded-full bg-slate-900 text-white text-xs font-bold tracking-wide mb-6 shadow-md border border-slate-700">
+                <div className="animate-bounce-in inline-flex items-center gap-2 px-4 py-2 rounded-full bg-slate-900 text-white text-xs font-bold tracking-wide mb-6 shadow-md border border-slate-700 animate-float">
                   <Sparkles className="w-4 h-4 text-amber-400" />
                   <span>MoSPI Official Statistics • iGOT Karmayogi Micro-Learning</span>
                 </div>
 
-                <h1 className="text-4xl sm:text-5xl lg:text-6xl font-black text-slate-900 tracking-tight mb-6 max-w-4xl mx-auto leading-[1.15]">
-                  AI-Orchestrated Competency Assurance for <span className="text-transparent bg-clip-text bg-gradient-to-r from-[#0B2545] via-blue-800 to-teal-700">Official Statistics</span>
+                <h1 className="animate-fade-up text-4xl sm:text-5xl lg:text-6xl font-black text-slate-900 tracking-tight mb-6 max-w-4xl mx-auto leading-[1.15]">
+                  AI-Orchestrated Competency Assurance for{' '}
+                  <span className="animate-text-shimmer">Official Statistics</span>
                 </h1>
 
-                <p className="text-base sm:text-lg text-slate-600 max-w-3xl mx-auto mb-10 leading-relaxed font-normal">
+                <p className="animate-fade-up-d1 text-base sm:text-lg text-slate-600 max-w-3xl mx-auto mb-10 leading-relaxed font-normal">
                   Ingests dense government manuals, extracts tabular matrices via OCR, generates grounded questions using Gemini Pro at temperature 0.0, and puts expert trainers in the loop before deploying to iGOT Karmayogi.
                 </p>
 
-                <div className="flex flex-wrap items-center justify-center gap-4 mb-16">
+                <div className="animate-fade-up-d2 flex flex-wrap items-center justify-center gap-4 mb-16">
                   <button
                     onClick={() => handleSwitchRole('admin')}
                     className="btn-primary px-7 py-4 bg-[#0B2545] hover:bg-slate-900 border border-slate-800 text-white text-sm sm:text-base font-bold rounded-xl shadow-md flex items-center gap-3"
@@ -133,10 +137,10 @@ export function App() {
                   </button>
                 </div>
 
-                {/* Modern 4 Pillars Grid with Distinct Subtle Background Tints */}
-                <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-6 text-left mb-16">
-                  <div className="feature-card card-glow-blue bg-gradient-to-br from-white to-blue-50/60 p-6 rounded-2xl border border-blue-200/80 shadow-xs">
-                    <div className="feature-icon w-12 h-12 rounded-xl bg-blue-100/80 border border-blue-300 text-blue-900 flex items-center justify-center mb-4 shadow-2xs">
+                {/* Modern 4 Pillars Grid */}
+                <div className="stagger-children grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-6 text-left mb-16">
+                  <div className="feature-card animate-fade-up card-glow-blue bg-gradient-to-br from-white to-blue-50/60 p-6 rounded-2xl border border-blue-200/80">
+                    <div className="feature-icon w-12 h-12 rounded-xl bg-blue-100/80 border border-blue-300 text-blue-900 flex items-center justify-center mb-4">
                       <FileText className="w-6 h-6" />
                     </div>
                     <h3 className="text-base font-bold text-slate-900 mb-2 font-sans">OCR & Tabular Ingestion</h3>
@@ -145,8 +149,8 @@ export function App() {
                     </p>
                   </div>
 
-                  <div className="feature-card card-glow-amber bg-gradient-to-br from-white to-amber-50/60 p-6 rounded-2xl border border-amber-200/80 shadow-xs">
-                    <div className="feature-icon w-12 h-12 rounded-xl bg-amber-100/80 border border-amber-300 text-amber-900 flex items-center justify-center mb-4 shadow-2xs">
+                  <div className="feature-card animate-fade-up card-glow-amber bg-gradient-to-br from-white to-amber-50/60 p-6 rounded-2xl border border-amber-200/80">
+                    <div className="feature-icon w-12 h-12 rounded-xl bg-amber-100/80 border border-amber-300 text-amber-900 flex items-center justify-center mb-4">
                       <Brain className="w-6 h-6" />
                     </div>
                     <h3 className="text-base font-bold text-slate-900 mb-2 font-sans">Zero-Hallucination AI</h3>
@@ -155,8 +159,8 @@ export function App() {
                     </p>
                   </div>
 
-                  <div className="feature-card card-glow-purple bg-gradient-to-br from-white to-purple-50/60 p-6 rounded-2xl border border-purple-200/80 shadow-xs">
-                    <div className="feature-icon w-12 h-12 rounded-xl bg-purple-100/80 border border-purple-300 text-purple-900 flex items-center justify-center mb-4 shadow-2xs">
+                  <div className="feature-card animate-fade-up card-glow-purple bg-gradient-to-br from-white to-purple-50/60 p-6 rounded-2xl border border-purple-200/80">
+                    <div className="feature-icon w-12 h-12 rounded-xl bg-purple-100/80 border border-purple-300 text-purple-900 flex items-center justify-center mb-4">
                       <CheckCircle2 className="w-6 h-6" />
                     </div>
                     <h3 className="text-base font-bold text-slate-900 mb-2 font-sans">Admin HITL Verification</h3>
@@ -165,8 +169,8 @@ export function App() {
                     </p>
                   </div>
 
-                  <div className="feature-card card-glow-green bg-gradient-to-br from-white to-emerald-50/60 p-6 rounded-2xl border border-emerald-200/80 shadow-xs">
-                    <div className="feature-icon w-12 h-12 rounded-xl bg-emerald-100/80 border border-emerald-300 text-emerald-900 flex items-center justify-center mb-4 shadow-2xs">
+                  <div className="feature-card animate-fade-up card-glow-green bg-gradient-to-br from-white to-emerald-50/60 p-6 rounded-2xl border border-emerald-200/80">
+                    <div className="feature-icon w-12 h-12 rounded-xl bg-emerald-100/80 border border-emerald-300 text-emerald-900 flex items-center justify-center mb-4">
                       <Award className="w-6 h-6" />
                     </div>
                     <h3 className="text-base font-bold text-slate-900 mb-2 font-sans">iGOT Remediation Engine</h3>
@@ -192,10 +196,10 @@ export function App() {
                     </span>
                   </div>
 
-                  <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-4">
-                    <div className="pipeline-card p-5 rounded-xl bg-sky-50/70 border border-sky-200/90 shadow-2xs">
+                  <div className="stagger-children grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-4">
+                    <div className="pipeline-card p-5 rounded-xl bg-sky-50/70 border border-sky-200/90">
                       <div className="flex items-center gap-2.5 mb-2.5">
-                        <span className="w-6 h-6 rounded-lg bg-[#0B2545] text-white flex items-center justify-center text-xs font-black shadow-2xs">
+                        <span className="pipeline-step-num w-6 h-6 rounded-lg bg-[#0B2545] text-white flex items-center justify-center text-xs font-black shadow-md">
                           1
                         </span>
                         <span className="text-sm font-bold text-slate-900">Doc Ingestion</span>
@@ -205,9 +209,9 @@ export function App() {
                       </p>
                     </div>
 
-                    <div className="pipeline-card p-5 rounded-xl bg-indigo-50/70 border border-indigo-200/90 shadow-2xs">
+                    <div className="pipeline-card p-5 rounded-xl bg-indigo-50/70 border border-indigo-200/90">
                       <div className="flex items-center gap-2.5 mb-2.5">
-                        <span className="w-6 h-6 rounded-lg bg-[#0B2545] text-white flex items-center justify-center text-xs font-black shadow-2xs">
+                        <span className="pipeline-step-num w-6 h-6 rounded-lg bg-[#0B2545] text-white flex items-center justify-center text-xs font-black shadow-md">
                           2
                         </span>
                         <span className="text-sm font-bold text-slate-900">Gemini Pro AI</span>
@@ -217,9 +221,9 @@ export function App() {
                       </p>
                     </div>
 
-                    <div className="pipeline-card p-5 rounded-xl bg-amber-50/70 border border-amber-200/90 shadow-2xs">
+                    <div className="pipeline-card p-5 rounded-xl bg-amber-50/70 border border-amber-200/90">
                       <div className="flex items-center gap-2.5 mb-2.5">
-                        <span className="w-6 h-6 rounded-lg bg-[#0B2545] text-white flex items-center justify-center text-xs font-black shadow-2xs">
+                        <span className="pipeline-step-num w-6 h-6 rounded-lg bg-[#0B2545] text-white flex items-center justify-center text-xs font-black shadow-md">
                           3
                         </span>
                         <span className="text-sm font-bold text-slate-900">HITL Review</span>
@@ -229,9 +233,9 @@ export function App() {
                       </p>
                     </div>
 
-                    <div className="pipeline-card p-5 rounded-xl bg-emerald-50/70 border border-emerald-200/90 shadow-2xs">
+                    <div className="pipeline-card p-5 rounded-xl bg-emerald-50/70 border border-emerald-200/90">
                       <div className="flex items-center gap-2.5 mb-2.5">
-                        <span className="w-6 h-6 rounded-lg bg-[#0B2545] text-white flex items-center justify-center text-xs font-black shadow-2xs">
+                        <span className="pipeline-step-num w-6 h-6 rounded-lg bg-[#0B2545] text-white flex items-center justify-center text-xs font-black shadow-md">
                           4
                         </span>
                         <span className="text-sm font-bold text-slate-900">iGOT Remediation</span>
