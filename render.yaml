@@ -1,0 +1,38 @@
+services:
+  # 1. FastAPI Backend Service on Render
+  - type: web
+    name: smartskill-backend
+    env: python
+    buildCommand: pip install -r backend/requirements.txt
+    startCommand: uvicorn app.main:app --app-dir backend --host 0.0.0.0 --port $PORT
+    envVars:
+      - key: PYTHON_VERSION
+        value: 3.13.0
+      - key: SECRET_KEY
+        generateValue: true
+      - key: DATABASE_URL
+        fromDatabase:
+          name: smartskill-postgres
+          property: connectionString
+      - key: GEMINI_MODEL
+        value: gemini-3.8-flash
+      - key: GEMINI_TEMPERATURE
+        value: "0.0"
+
+  # 2. React Frontend SPA on Render
+  - type: web
+    name: smartskill-frontend
+    env: static
+    buildCommand: cd frontend && npm install && npm run build
+    staticPublishPath: ./frontend/dist
+    routes:
+      - type: rewrite
+        source: /*
+        destination: /index.html
+
+databases:
+  # PostgreSQL Managed Database
+  - name: smartskill-postgres
+    plan: free
+    databaseName: smartskill_db
+    user: postgres

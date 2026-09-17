@@ -1,0 +1,54 @@
+# Environment & Secrets (CRITICAL)
+.env
+.env.*
+*.env
+backend/.env
+backend/.env.*
+frontend/.env
+frontend/.env.*
+!*.example
+
+# Python
+__pycache__/
+*.py[cod]
+*$py.class
+*.so
+.Python
+env/
+venv/
+.venv/
+backend/.venv/
+env.bak/
+venv.bak/
+
+# Database & Uploads
+*.db
+*.sqlite
+*.sqlite3
+smartskill.db
+backend/smartskill.db
+backend/data/uploads/
+data/uploads/
+backend/data/*.log
+*.log
+
+# Testing & Coverage
+.pytest_cache/
+.coverage
+htmlcov/
+
+# Node & Frontend
+node_modules/
+frontend/node_modules/
+frontend/dist/
+frontend/dist-ssr/
+frontend/*.local
+dist/
+
+# IDE & OS
+.idea/
+.vscode/
+*.swp
+*.swo
+.DS_Store
+Thumbs.db
