@@ -1,3 +1,4 @@
+import os
 import logging
 from typing import Generator
 from sqlalchemy import create_engine
@@ -11,6 +12,9 @@ Base = declarative_base()
 
 def get_engine():
     db_url = settings.DATABASE_URL
+    if db_url.startswith("postgres://"):
+        db_url = db_url.replace("postgres://", "postgresql://", 1)
+
     connect_args = {}
     if db_url.startswith("sqlite"):
         connect_args = {"check_same_thread": False}
@@ -24,7 +28,7 @@ def get_engine():
         return engine
     except Exception as e:
         if not db_url.startswith("sqlite"):
-            fallback_path = "/tmp/smartskill.db" if os.getenv("VERCEL") else "./smartskill.db"
+            fallback_path = "/tmp/smartskill.db" if (os.getenv("VERCEL") or os.getenv("AWS_LAMBDA_FUNCTION_NAME")) else "./smartskill.db"
             logger.warning(f"PostgreSQL connection failed ({e}). Falling back to SQLite: sqlite:///{fallback_path}")
             fallback_url = f"sqlite:///{fallback_path}"
             return create_engine(fallback_url, connect_args={"check_same_thread": False}, pool_pre_ping=True)

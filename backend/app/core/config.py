@@ -89,6 +89,8 @@ class Settings(BaseSettings):
             if os.getenv("VERCEL") or os.getenv("AWS_LAMBDA_FUNCTION_NAME"):
                 return "sqlite:////tmp/smartskill.db"
             return f"sqlite:///{os.path.abspath(os.path.join(os.path.dirname(__file__), '../../smartskill.db')).replace('\\', '/')}"
+        if isinstance(v, str) and v.startswith("postgres://"):
+            return v.replace("postgres://", "postgresql://", 1)
         return v
 
     @field_validator("SECRET_KEY", mode="before")

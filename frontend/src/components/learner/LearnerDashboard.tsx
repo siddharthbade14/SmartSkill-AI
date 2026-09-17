@@ -116,6 +116,7 @@ export const LearnerDashboard: React.FC<LearnerDashboardProps> = ({ initialTab =
       setActiveView('test');
     } catch (err: any) {
       alert('Could not start assessment: ' + err.message);
+      loadAvailableQuizzes();
     }
   };
 
