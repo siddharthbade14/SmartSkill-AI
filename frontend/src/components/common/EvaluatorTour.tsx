@@ -40,7 +40,7 @@ interface TourStep {
 const TOUR_STEPS: TourStep[] = [
   {
     stepNumber: 1,
-    badge: 'SIH 2024 · Problem Statement Showcase',
+    badge: 'SIH 2026 · Problem Statement Showcase',
     badgeColor: 'bg-amber-500/20 text-amber-300 border-amber-500/40',
     title: 'Welcome Evaluator & Hackathon Judges!',
     subtitle: 'End-to-End Civil Service Micro-Learning & Competency Assurance',
@@ -66,7 +66,7 @@ const TOUR_STEPS: TourStep[] = [
     technicalHighlights: [
       'Automated extraction of tables and prose sections from multi-page PDFs',
       'Preserves row-column relationships essential for statistical calculation questions',
-      'Sample Ingested Document: MoSPI Consumer Price Index (CPI) Manual 2024',
+      'Sample Ingested Document: MoSPI Consumer Price Index (CPI) Manual 2026',
       'Real-time document status & metadata tracking in the Document Registry'
     ],
     roleAction: 'admin',

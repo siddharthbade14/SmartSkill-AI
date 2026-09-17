@@ -376,7 +376,7 @@ export function AppInner() {
                 <div className="flex items-center gap-2 mt-4 flex-wrap">
                   <span className="sih-badge">
                     <Zap className="w-3 h-3" />
-                    Smart India Hackathon 2024
+                    Smart India Hackathon 2026
                   </span>
                 </div>
               </div>
@@ -417,7 +417,7 @@ export function AppInner() {
           {/* Bottom bar */}
           <div className="border-t border-slate-100 px-4 py-4">
             <div className="max-w-7xl mx-auto flex flex-col sm:flex-row items-center justify-between gap-2 text-[11px] text-slate-400 font-medium">
-              <span>© 2024 SmartSkill AI · National Statistical Systems Training Academy (NSSTA) · MoSPI · iGOT Karmayogi</span>
+              <span>© 2026 SmartSkill AI · National Statistical Systems Training Academy (NSSTA) · MoSPI · iGOT Karmayogi</span>
               <div className="flex items-center gap-1.5">
                 <TrendingUp className="w-3.5 h-3.5 text-emerald-500" />
                 <span className="text-emerald-600 font-bold">System Operational</span>
