@@ -27,6 +27,37 @@ async def lifespan(app: FastAPI):
     try:
         Base.metadata.create_all(bind=engine)
         logger.info("Database schema synchronized successfully.")
+        
+        # Ensure default demo accounts are seeded for authentication
+        from app.db.session import SessionLocal
+        from app.models.user import User
+        from app.core.security import get_password_hash
+        
+        db = SessionLocal()
+        try:
+            if not db.query(User).filter(User.email == "admin@mospi.gov.in").first():
+                db.add(User(
+                    email="admin@mospi.gov.in",
+                    hashed_password=get_password_hash("Admin@123"),
+                    full_name="Dr. Arvind Saxena (Senior Deputy Director General)",
+                    role="admin",
+                    department="National Statistical Systems Training Academy (NSSTA), MoSPI",
+                    is_active=True
+                ))
+            if not db.query(User).filter(User.email == "officer@mospi.gov.in").first():
+                db.add(User(
+                    email="officer@mospi.gov.in",
+                    hashed_password=get_password_hash("Learner@123"),
+                    full_name="Pooja Sharma (Junior Statistical Officer)",
+                    role="learner",
+                    department="Field Operations Division (FOD), MoSPI",
+                    is_active=True
+                ))
+            db.commit()
+        except Exception as seed_err:
+            logger.warning(f"Default user seed check: {seed_err}")
+        finally:
+            db.close()
     except Exception as e:
         logger.error(f"Database initialization encountered an error: {e}", exc_info=True)
     yield
