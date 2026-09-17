@@ -73,15 +73,55 @@ class Settings(BaseSettings):
             return 0.0
         return float(v)
 
-    @field_validator("MAX_UPLOAD_SIZE_MB", mode="before")
+    @field_validator("UPLOAD_DIR", mode="before")
     @classmethod
-    def parse_max_upload_size(cls, v):
-        if v is None or v == "":
-            return 50
-        return int(v)
+    def parse_upload_dir(cls, v):
+        if not v:
+            if os.getenv("VERCEL") or os.getenv("AWS_LAMBDA_FUNCTION_NAME"):
+                return "/tmp/uploads"
+            return os.path.abspath(os.path.join(os.path.dirname(__file__), "../../data/uploads"))
+        return v
+
+    @field_validator("DATABASE_URL", mode="before")
+    @classmethod
+    def parse_database_url(cls, v):
+        if not v:
+            if os.getenv("VERCEL") or os.getenv("AWS_LAMBDA_FUNCTION_NAME"):
+                return "sqlite:////tmp/smartskill.db"
+            return f"sqlite:///{os.path.abspath(os.path.join(os.path.dirname(__file__), '../../smartskill.db')).replace('\\', '/')}"
+        return v
+
+    @field_validator("SECRET_KEY", mode="before")
+    @classmethod
+    def parse_secret_key(cls, v):
+        return v or "smartskill-ai-super-secret-production-key-mospi-2026-igot"
+
+    @field_validator("GEMINI_MODEL", mode="before")
+    @classmethod
+    def parse_gemini_model(cls, v):
+        return v or "gemini-3.8-flash"
+
+    @field_validator("SUPPORT_EMAIL", mode="before")
+    @classmethod
+    def parse_support_email(cls, v):
+        return v or "smartskillai3@gmail.com"
+
+    @field_validator("GMAIL_SMTP_HOST", mode="before")
+    @classmethod
+    def parse_smtp_host(cls, v):
+        return v or "smtp.gmail.com"
+
+    @field_validator("GMAIL_USER", mode="before")
+    @classmethod
+    def parse_gmail_user(cls, v):
+        return v or "smartskillai3@gmail.com"
 
 
 settings = Settings()
 
 # Ensure uploads directory exists
-os.makedirs(settings.UPLOAD_DIR, exist_ok=True)
+if settings.UPLOAD_DIR:
+    try:
+        os.makedirs(settings.UPLOAD_DIR, exist_ok=True)
+    except Exception:
+        pass
