@@ -298,21 +298,21 @@ export const AIChatAssistant: React.FC<AIChatAssistantProps> = ({
       {!isOpen && (
         <button
           onClick={onOpen}
-          className="fixed bottom-6 right-6 z-50 group flex items-center gap-3 px-4 sm:px-5 py-3.5 bg-[#08101E]/95 hover:bg-[#0C182E] text-white rounded-full shadow-[0_12px_40px_-5px_rgba(11,37,69,0.7)] hover:shadow-[0_20px_50px_rgba(99,102,241,0.35)] hover:scale-105 transition-all duration-300 border border-indigo-400/35 backdrop-blur-xl cursor-pointer"
+          className="fixed bottom-4 right-4 sm:bottom-6 sm:right-6 z-40 group flex items-center gap-2.5 sm:gap-3 px-3.5 sm:px-5 py-3 sm:py-3.5 bg-[#08101E]/95 hover:bg-[#0C182E] text-white rounded-full shadow-[0_12px_40px_-5px_rgba(11,37,69,0.7)] hover:shadow-[0_20px_50px_rgba(99,102,241,0.35)] hover:scale-105 transition-all duration-300 border border-indigo-400/35 backdrop-blur-xl cursor-pointer active:scale-95"
           title="Open MoSPI SmartSkill AI Assistant"
           aria-label="Open AI Assistant"
         >
           {/* Glowing Avatar Orb with Dual Pulse */}
           <div className="relative">
-            <div className="w-9 h-9 rounded-full bg-gradient-to-tr from-indigo-600 via-blue-600 to-amber-400 p-[1.5px] shadow-lg">
+            <div className="w-8 h-8 sm:w-9 sm:h-9 rounded-full bg-gradient-to-tr from-indigo-600 via-blue-600 to-amber-400 p-[1.5px] shadow-lg">
               <div className="w-full h-full bg-[#08101E] rounded-full flex items-center justify-center group-hover:scale-95 transition-transform">
                 <Sparkles className="w-4 h-4 text-amber-300 fill-amber-300/40 group-hover:rotate-12 transition-transform duration-300" />
               </div>
             </div>
             {/* Live Ripple Badge */}
-            <span className="absolute -top-0.5 -right-0.5 flex h-3 w-3">
+            <span className="absolute -top-0.5 -right-0.5 flex h-2.5 w-2.5 sm:h-3 sm:w-3">
               <span className="animate-ping absolute inline-flex h-full w-full rounded-full bg-emerald-400 opacity-75"></span>
-              <span className="relative inline-flex rounded-full h-3 w-3 bg-emerald-400 border-2 border-[#08101E]"></span>
+              <span className="relative inline-flex rounded-full h-2.5 w-2.5 sm:h-3 sm:w-3 bg-emerald-400 border-2 border-[#08101E]"></span>
             </span>
           </div>
 
@@ -333,10 +333,10 @@ export const AIChatAssistant: React.FC<AIChatAssistantProps> = ({
       {/* 2. STATE-OF-THE-ART EXECUTIVE CHAT DOCK (Visible when open) */}
       {isOpen && (
         <div 
-          className={`fixed z-50 transition-all duration-300 flex flex-col bg-[#070D18]/95 backdrop-blur-2xl rounded-3xl border border-white/10 overflow-hidden shadow-[0_25px_80px_-15px_rgba(2,10,25,0.85)] ${
+          className={`fixed z-50 transition-all duration-300 flex flex-col bg-[#070D18]/95 backdrop-blur-2xl rounded-2xl sm:rounded-3xl border border-white/10 overflow-hidden shadow-[0_25px_80px_-15px_rgba(2,10,25,0.85)] ${
             isExpanded 
-              ? 'inset-3 sm:inset-6 md:inset-10 max-w-5xl mx-auto' 
-              : 'bottom-4 right-4 sm:bottom-6 sm:right-6 w-[95vw] sm:w-[470px] h-[660px] max-h-[88vh]'
+              ? 'inset-2 sm:inset-6 md:inset-10 max-w-5xl mx-auto' 
+              : 'inset-x-2 bottom-2 sm:inset-x-auto sm:right-6 sm:bottom-6 w-auto sm:w-[470px] h-[85vh] sm:h-[660px] max-h-[90vh]'
           }`}
         >
           {/* AMBIENT TOP LIGHT BEAM */}

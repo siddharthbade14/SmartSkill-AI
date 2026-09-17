@@ -210,15 +210,15 @@ export const AuthModal: React.FC<AuthModalProps> = ({ isOpen, onClose, onSuccess
   };
 
   return (
-    <div className="fixed inset-0 z-50 overflow-y-auto bg-slate-900/60 backdrop-blur-sm flex items-center justify-center p-4">
-      <div className="relative bg-white rounded-2xl shadow-2xl max-w-md w-full border border-slate-200 overflow-hidden animate-in fade-in zoom-in-95 duration-200">
+    <div className="fixed inset-0 z-50 overflow-y-auto bg-slate-900/60 backdrop-blur-sm flex items-center justify-center p-3 sm:p-4">
+      <div className="relative bg-white rounded-2xl shadow-2xl max-w-md w-full max-h-[92vh] flex flex-col border border-slate-200 overflow-hidden animate-in fade-in zoom-in-95 duration-200 my-auto">
         {/* National Emblem & Top Accent */}
-        <div className="h-2 bg-gradient-to-r from-[#0B2545] via-[#134E4A] to-amber-500" />
+        <div className="h-2 bg-gradient-to-r from-[#0B2545] via-[#134E4A] to-amber-500 shrink-0" />
         
-        <div className="p-6 sm:p-8">
+        <div className="p-5 sm:p-7 overflow-y-auto overscroll-contain flex-1 relative">
           <button
             onClick={onClose}
-            className="absolute top-5 right-5 w-7 h-7 rounded-lg border border-slate-200 hover:bg-slate-100 flex items-center justify-center text-slate-400 hover:text-slate-600 transition shadow-2xs"
+            className="absolute top-4 right-4 w-7 h-7 rounded-lg border border-slate-200 hover:bg-slate-100 flex items-center justify-center text-slate-400 hover:text-slate-600 transition shadow-2xs z-10"
             aria-label="Close modal"
           >
             <X className="w-4 h-4" />

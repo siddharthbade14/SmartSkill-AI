@@ -175,15 +175,15 @@ export const Navbar: React.FC<NavbarProps> = ({
         </div>
 
         {/* Essential Header Bar (Clean: Menu Toggle + Logo/Brand on Left, Essentials on Right) */}
-        <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-          <div className="flex items-center justify-between h-17 gap-4">
+        <div className="max-w-7xl mx-auto px-3 sm:px-6 lg:px-8">
+          <div className="flex items-center justify-between h-16 sm:h-17 gap-2 sm:gap-4">
             
             {/* LEFT SIDE: UPPER MENU TOGGLE + MATCHING LOGO & SITE NAME */}
-            <div className="flex items-center gap-3 sm:gap-4">
+            <div className="flex items-center gap-2 sm:gap-3.5 min-w-0">
               {/* Upper Menu Button to Toggle Vertical Drawer */}
               <button
                 onClick={() => setIsDrawerOpen(!isDrawerOpen)}
-                className={`inline-flex items-center gap-2 px-3 sm:px-3.5 py-2 rounded-xl border text-sm font-bold shadow-md transition-all duration-150 active:scale-95 ${
+                className={`inline-flex items-center gap-1.5 sm:gap-2 px-2.5 sm:px-3.5 py-2 rounded-xl border text-sm font-bold shadow-md transition-all duration-150 active:scale-95 shrink-0 ${
                   isDrawerOpen
                     ? 'bg-blue-600 text-white border-blue-400/60 shadow-blue-900/40 ring-2 ring-blue-400/30'
                     : 'bg-white/10 hover:bg-white/20 text-white border-white/20 hover:border-white/30'
@@ -192,34 +192,36 @@ export const Navbar: React.FC<NavbarProps> = ({
                 aria-label={isDrawerOpen ? 'Hide Navigation Menu' : 'Open Navigation Menu'}
               >
                 {isDrawerOpen ? (
-                  <PanelLeftClose className="w-5 h-5 text-amber-400" />
+                  <PanelLeftClose className="w-4 h-4 sm:w-5 sm:h-5 text-amber-400" />
                 ) : (
-                  <Menu className="w-5 h-5 text-white" />
+                  <Menu className="w-4 h-4 sm:w-5 sm:h-5 text-white" />
                 )}
-                <span className="font-bold tracking-tight text-xs sm:text-sm">
-                  {isDrawerOpen ? 'Hide Menu' : 'Menu'}
+                <span className="font-bold tracking-tight text-xs sm:text-sm hidden xs:inline">
+                  {isDrawerOpen ? 'Hide' : 'Menu'}
                 </span>
               </button>
 
               {/* Matching Brand Logo & Site Name */}
               <div 
-                className="flex items-center gap-3 cursor-pointer group"
+                className="flex items-center gap-2 sm:gap-3 cursor-pointer group min-w-0"
                 onClick={() => user && setActiveTab(user.role === 'admin' ? 'hitl' : 'assessments')}
                 title="SmartSkill AI Home"
               >
                 {/* Official Vector Logo */}
-                <SmartSkillLogo size="md" />
+                <div className="shrink-0">
+                  <SmartSkillLogo size="md" />
+                </div>
                 
-                <div className="flex flex-col">
-                  <div className="flex items-center gap-2">
-                    <span className="text-lg sm:text-xl font-black text-white tracking-tight font-sans">
+                <div className="flex flex-col min-w-0">
+                  <div className="flex items-center gap-1.5 sm:gap-2">
+                    <span className="text-base sm:text-xl font-black text-white tracking-tight font-sans truncate">
                       SmartSkill<span className="text-amber-400">AI</span>
                     </span>
-                    <span className="px-2 py-0.5 rounded-md text-[10px] font-extrabold tracking-wider uppercase bg-blue-500/25 text-blue-200 border border-blue-400/30">
+                    <span className="px-1.5 sm:px-2 py-0.5 rounded-md text-[9px] sm:text-[10px] font-extrabold tracking-wider uppercase bg-blue-500/25 text-blue-200 border border-blue-400/30 shrink-0">
                       MoSPI
                     </span>
                   </div>
-                  <span className="text-xs text-slate-300 font-medium tracking-tight hidden sm:block">
+                  <span className="text-xs text-slate-300 font-medium tracking-tight hidden sm:block truncate">
                     Official Statistics Micro-Learning & Competency Engine
                   </span>
                 </div>
@@ -227,24 +229,26 @@ export const Navbar: React.FC<NavbarProps> = ({
             </div>
 
             {/* RIGHT SIDE: ESSENTIAL CONTROLS ONLY (HELP & SUPPORT, ROLE SWITCHER, PROFILE) */}
-            <div className="flex items-center gap-2.5 sm:gap-3">
+            <div className="flex items-center gap-1.5 sm:gap-2.5 shrink-0">
 
               {/* ── Evaluator Tour Button ── */}
               {onStartTour && (
                 <button
                   onClick={onStartTour}
-                  className="inline-flex items-center gap-1.5 px-3 py-2 rounded-xl bg-gradient-to-r from-amber-500 to-orange-500 hover:from-amber-400 hover:to-orange-400 text-slate-950 text-xs font-black shadow-md shadow-amber-500/25 border border-amber-300 transition active:scale-95 animate-subtle-pulse cursor-pointer"
+                  className="inline-flex items-center gap-1 sm:gap-1.5 px-2.5 sm:px-3 py-2 rounded-xl bg-gradient-to-r from-amber-500 to-orange-500 hover:from-amber-400 hover:to-orange-400 text-slate-950 text-xs font-black shadow-md shadow-amber-500/25 border border-amber-300 transition active:scale-95 animate-subtle-pulse cursor-pointer shrink-0"
                   title="Start Interactive 3-Minute Evaluator Tour"
                 >
-                  <Rocket className="w-3.5 h-3.5 text-slate-950" />
-                  <span className="font-extrabold tracking-tight">Evaluator Tour</span>
+                  <Rocket className="w-3.5 h-3.5 text-slate-950 shrink-0" />
+                  <span className="font-extrabold tracking-tight">
+                    <span className="hidden sm:inline">Evaluator </span>Tour
+                  </span>
                 </button>
               )}
 
               {/* ── Dark Mode Toggle ── */}
               <button
                 onClick={toggleTheme}
-                className="theme-toggle inline-flex items-center gap-1.5 px-3 py-2 rounded-xl border text-xs font-bold shadow-xs transition"
+                className="theme-toggle inline-flex items-center gap-1.5 p-2 sm:px-3 sm:py-2 rounded-xl border text-xs font-bold shadow-xs transition shrink-0"
                 style={{
                   background: isDark ? 'rgba(251,191,36,0.18)' : 'rgba(255,255,255,0.12)',
                   borderColor: isDark ? 'rgba(251,191,36,0.45)' : 'rgba(255,255,255,0.22)',
@@ -254,17 +258,17 @@ export const Navbar: React.FC<NavbarProps> = ({
                 aria-label="Toggle dark mode"
               >
                 {isDark
-                  ? <><Sun className="w-4 h-4 text-amber-300" /><span className="hidden sm:inline">Light</span></>
-                  : <><Moon className="w-4 h-4 text-slate-300" /><span className="hidden sm:inline">Dark</span></>}
+                  ? <><Sun className="w-4 h-4 text-amber-300 shrink-0" /><span className="hidden sm:inline">Light</span></>
+                  : <><Moon className="w-4 h-4 text-slate-300 shrink-0" /><span className="hidden sm:inline">Dark</span></>}
               </button>
 
               {/* Help & Support Button */}
               <button
                 onClick={() => setIsHelpModalOpen(true)}
-                className="inline-flex items-center gap-1.5 px-3 py-2 rounded-xl bg-amber-500/15 hover:bg-amber-500/25 border border-amber-400/40 text-amber-200 hover:text-white text-xs sm:text-sm font-bold shadow-xs transition backdrop-blur-xs cursor-pointer"
+                className="inline-flex items-center gap-1.5 p-2 sm:px-3 sm:py-2 rounded-xl bg-amber-500/15 hover:bg-amber-500/25 border border-amber-400/40 text-amber-200 hover:text-white text-xs sm:text-sm font-bold shadow-xs transition backdrop-blur-xs cursor-pointer shrink-0"
                 title="Help & Support (Queries to smartskillai3@gmail.com)"
               >
-                <HelpCircle className="w-4 h-4 text-amber-400" />
+                <HelpCircle className="w-4 h-4 text-amber-400 shrink-0" />
                 <span className="hidden md:inline">Help & Support</span>
               </button>
 
@@ -347,7 +351,7 @@ export const Navbar: React.FC<NavbarProps> = ({
       {/* 3. VERTICAL NAVIGATION DRAWER (LEFT SIDE)                                 */}
       {/* ========================================================================= */}
       <aside
-        className={`fixed inset-y-0 left-0 z-50 w-80 sm:w-88 drawer-highlight flex flex-col transform transition-transform duration-300 ease-in-out ${
+        className={`fixed inset-y-0 left-0 z-50 w-[86vw] max-w-sm sm:w-88 drawer-highlight flex flex-col transform transition-transform duration-300 ease-in-out pb-safe ${
           isDrawerOpen ? 'translate-x-0' : '-translate-x-full'
         }`}
         aria-label="Sidebar Navigation Drawer"
@@ -356,19 +360,19 @@ export const Navbar: React.FC<NavbarProps> = ({
         <div className="tricolor-accent w-full" />
 
         {/* Drawer Header with Matching Logo & Hide Button */}
-        <div className="p-5 border-b border-blue-900/70 flex items-center justify-between gap-3 bg-[#040E1B]/80">
-          <div className="flex items-center gap-3">
+        <div className="p-4 sm:p-5 border-b border-blue-900/70 flex items-center justify-between gap-3 bg-[#040E1B]/80 shrink-0">
+          <div className="flex items-center gap-2.5 sm:gap-3 min-w-0">
             <SmartSkillLogo size="sm" />
-            <div>
-              <div className="flex items-center gap-2">
-                <span className="text-lg font-black text-white tracking-tight">
+            <div className="min-w-0">
+              <div className="flex items-center gap-1.5 sm:gap-2">
+                <span className="text-base sm:text-lg font-black text-white tracking-tight">
                   SmartSkill<span className="text-amber-400">AI</span>
                 </span>
-                <span className="px-2 py-0.5 rounded-md text-[10px] font-extrabold uppercase bg-blue-500/25 text-blue-200 border border-blue-400/30">
+                <span className="px-1.5 py-0.5 rounded-md text-[9px] font-extrabold uppercase bg-blue-500/25 text-blue-200 border border-blue-400/30">
                   MoSPI
                 </span>
               </div>
-              <span className="text-xs text-slate-300 font-medium">
+              <span className="text-[11px] text-slate-300 font-medium truncate block">
                 National Statistics Academy
               </span>
             </div>
@@ -377,7 +381,7 @@ export const Navbar: React.FC<NavbarProps> = ({
           {/* Button to Hide Navigation Drawer */}
           <button
             onClick={() => setIsDrawerOpen(false)}
-            className="p-2 text-slate-300 hover:text-white bg-white/10 hover:bg-white/20 border border-white/20 rounded-xl transition shadow-xs flex items-center gap-1 text-xs font-bold"
+            className="p-2 text-slate-300 hover:text-white bg-white/10 hover:bg-white/20 border border-white/20 rounded-xl transition shadow-xs flex items-center gap-1 text-xs font-bold shrink-0"
             title="Hide Navigation Drawer"
             aria-label="Hide Navigation Drawer"
           >
@@ -387,7 +391,7 @@ export const Navbar: React.FC<NavbarProps> = ({
         </div>
 
         {/* Ministry Information Banner */}
-        <div className="px-5 py-3 bg-blue-950/40 border-b border-blue-900/50 flex flex-col gap-1">
+        <div className="px-4 sm:px-5 py-2.5 bg-blue-950/40 border-b border-blue-900/50 flex flex-col gap-0.5 shrink-0">
           <div className="flex items-center gap-2 text-xs text-slate-200 font-semibold">
             <Building2 className="w-3.5 h-3.5 text-amber-400 flex-shrink-0" />
             <span className="truncate">Ministry of Statistics & PI (MoSPI)</span>
@@ -398,11 +402,43 @@ export const Navbar: React.FC<NavbarProps> = ({
           </div>
         </div>
 
+        {/* Featured Evaluator Tour Action (Prominent on Mobile) */}
+        {onStartTour && (
+          <div className="p-3 bg-gradient-to-r from-amber-500/15 via-orange-500/15 to-amber-600/15 border-b border-amber-400/30 shrink-0">
+            <button
+              onClick={() => {
+                setIsDrawerOpen(false);
+                onStartTour();
+              }}
+              className="w-full py-2.5 px-3.5 rounded-xl bg-gradient-to-r from-amber-500 via-orange-500 to-amber-600 hover:from-amber-400 hover:to-orange-400 text-slate-950 text-xs font-black shadow-md shadow-amber-500/25 border border-amber-300 transition flex items-center justify-center gap-2 active:scale-95 cursor-pointer"
+            >
+              <Rocket className="w-4 h-4 text-slate-950 shrink-0" />
+              <span>Start Evaluator Tour (3-Min Walkthrough)</span>
+            </button>
+          </div>
+        )}
+
+        {/* Appearance Mode Row (Dark / Light Switcher) */}
+        <div className="px-3 py-2 border-b border-blue-900/50 shrink-0">
+          <button
+            onClick={toggleTheme}
+            className="w-full flex items-center justify-between p-2.5 rounded-xl bg-white/5 hover:bg-white/10 border border-white/10 text-xs font-bold text-slate-200 transition"
+          >
+            <div className="flex items-center gap-2">
+              {isDark ? <Sun className="w-4 h-4 text-amber-300" /> : <Moon className="w-4 h-4 text-slate-300" />}
+              <span>Theme Appearance</span>
+            </div>
+            <span className="px-2 py-0.5 rounded-md text-[10px] font-black uppercase tracking-wider bg-white/10 border border-white/15 text-slate-200">
+              {isDark ? 'Dark Mode' : 'Light Mode'}
+            </span>
+          </button>
+        </div>
+
         {/* Scrollable Navigation Body */}
-        <div className="flex-1 overflow-y-auto px-4 py-5 space-y-5">
+        <div className="flex-1 overflow-y-auto overscroll-contain px-3 sm:px-4 py-4 space-y-4">
           {/* Main Navigation Items */}
           <div>
-            <div className="px-3 mb-3 text-xs font-black uppercase tracking-wider text-slate-400 flex items-center justify-between">
+            <div className="px-3 mb-2.5 text-xs font-black uppercase tracking-wider text-slate-400 flex items-center justify-between">
               <span>Main Navigation</span>
               {user && (
                 <span className="text-[10px] font-bold px-2 py-0.5 rounded-full bg-blue-500/20 text-blue-300 border border-blue-400/30">
@@ -582,19 +618,45 @@ export const Navbar: React.FC<NavbarProps> = ({
                 )}
               </div>
             ) : (
-              <div className="p-4 rounded-xl bg-white/5 border border-white/10 text-center">
-                <p className="text-xs text-slate-300 mb-3 font-medium">
-                  Sign in with your MoSPI credentials to access the curriculum and assessments.
+              <div className="p-4 rounded-xl bg-white/5 border border-white/10 space-y-3">
+                <p className="text-xs text-slate-300 font-medium">
+                  Sign in with your MoSPI credentials or test via official role presets:
                 </p>
                 <button
                   onClick={() => {
                     setIsDrawerOpen(false);
                     onOpenAuth();
                   }}
-                  className="w-full py-2.5 px-4 bg-blue-600 hover:bg-blue-700 text-white text-xs font-bold rounded-xl shadow-md border border-blue-400/40 transition"
+                  className="w-full py-2.5 px-4 bg-blue-600 hover:bg-blue-700 text-white text-xs font-bold rounded-xl shadow-md border border-blue-400/40 transition active:scale-95"
                 >
-                  Sign In Now
+                  Sign In to MoSPI Portal
                 </button>
+
+                <div className="space-y-2 pt-2 border-t border-white/10">
+                  <div className="text-[10px] font-bold uppercase tracking-wider text-slate-400">
+                    Instant Evaluator Demo:
+                  </div>
+                  <button
+                    onClick={() => {
+                      setIsDrawerOpen(false);
+                      onSwitchRole('admin');
+                    }}
+                    className="w-full py-2 px-3 bg-white/10 hover:bg-white/20 text-white text-xs font-bold rounded-xl border border-white/15 transition flex items-center justify-center gap-2 active:scale-95"
+                  >
+                    <ShieldCheck className="w-4 h-4 text-amber-400" />
+                    <span>Admin Trainer (HITL Curation)</span>
+                  </button>
+                  <button
+                    onClick={() => {
+                      setIsDrawerOpen(false);
+                      onSwitchRole('learner');
+                    }}
+                    className="w-full py-2 px-3 bg-teal-600/30 hover:bg-teal-600/40 text-teal-200 text-xs font-bold rounded-xl border border-teal-400/30 transition flex items-center justify-center gap-2 active:scale-95"
+                  >
+                    <BookOpen className="w-4 h-4 text-emerald-300" />
+                    <span>Learner Officer (iGOT Testing)</span>
+                  </button>
+                </div>
               </div>
             )}
           </div>
@@ -674,7 +736,7 @@ export const Navbar: React.FC<NavbarProps> = ({
         </div>
 
         {/* Drawer Footer with User Account & Switch Role */}
-        {user && (
+        {user ? (
           <div className="p-4 border-t border-blue-900/70 bg-[#040E1B] space-y-3">
             {/* Persona Switcher in Drawer */}
             <button
@@ -729,7 +791,17 @@ export const Navbar: React.FC<NavbarProps> = ({
             {/* Bottom Button to Hide Drawer */}
             <button
               onClick={() => setIsDrawerOpen(false)}
-              className="w-full flex items-center justify-center gap-2 py-2 px-3 rounded-xl bg-white/5 hover:bg-white/10 border border-white/15 text-slate-300 hover:text-white text-xs font-bold transition"
+              className="w-full flex items-center justify-center gap-2 py-2.5 px-3 rounded-xl bg-white/5 hover:bg-white/10 border border-white/15 text-slate-300 hover:text-white text-xs font-bold transition active:scale-95"
+            >
+              <PanelLeftClose className="w-4 h-4 text-amber-400" />
+              <span>Hide Navigation Drawer</span>
+            </button>
+          </div>
+        ) : (
+          <div className="p-4 border-t border-blue-900/70 bg-[#040E1B] shrink-0">
+            <button
+              onClick={() => setIsDrawerOpen(false)}
+              className="w-full flex items-center justify-center gap-2 py-2.5 px-3 rounded-xl bg-white/5 hover:bg-white/10 border border-white/15 text-slate-300 hover:text-white text-xs font-bold transition active:scale-95"
             >
               <PanelLeftClose className="w-4 h-4 text-amber-400" />
               <span>Hide Navigation Drawer</span>

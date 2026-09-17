@@ -1105,3 +1105,63 @@ html.dark ::-webkit-scrollbar-thumb:hover {
   background: #334155;
 }
 
+/* ═══════════════════════════════════════════════════════════════════════════
+   §22 MOBILE PHONE OPTIMIZATIONS & FLUID TOUCH (iOS & Android)
+══════════════════════════════════════════════════════════════════════════════ */
+
+/* Prevent horizontal overflow scrolling and eliminate tap delays */
+html, body {
+  max-width: 100vw;
+  overflow-x: hidden;
+  -webkit-tap-highlight-color: transparent;
+  touch-action: manipulation;
+}
+
+/* Smooth momentum scrolling across iOS Safari and mobile WebViews */
+* {
+  -webkit-overflow-scrolling: touch;
+}
+
+/* Safe Area Inset utilities for iPhone notches and Android system navigation */
+.pb-safe {
+  padding-bottom: env(safe-area-inset-bottom, 16px);
+}
+.pt-safe {
+  padding-top: env(safe-area-inset-top, 0px);
+}
+.mb-safe {
+  margin-bottom: env(safe-area-inset-bottom, 16px);
+}
+
+/* Hide scrollbar while preserving smooth touch swipe */
+.no-scrollbar::-webkit-scrollbar {
+  display: none;
+}
+.no-scrollbar {
+  -ms-overflow-style: none;
+  scrollbar-width: none;
+}
+
+/* iOS Safari auto-zoom prevention on input focus (requires >= 16px) */
+@media (max-width: 640px) {
+  input, select, textarea {
+    font-size: 16px !important;
+  }
+
+  /* Optimize modal positioning for phone screens */
+  .modal-sheet-mobile {
+    margin-top: auto !important;
+    border-bottom-left-radius: 0 !important;
+    border-bottom-right-radius: 0 !important;
+    max-height: 94vh !important;
+  }
+}
+
+/* Fluid responsive touch targets */
+@media (pointer: coarse) {
+  button, [role="button"], a {
+    min-height: 40px;
+  }
+}
+
+

@@ -187,38 +187,38 @@ export function AppInner() {
                   <span>MoSPI Official Statistics • iGOT Karmayogi Micro-Learning</span>
                 </div>
 
-                <h1 className="animate-fade-up text-4xl sm:text-5xl lg:text-6xl font-black text-slate-900 tracking-tight mb-6 max-w-4xl mx-auto leading-[1.15]">
+                <h1 className="animate-fade-up text-3xl sm:text-5xl lg:text-6xl font-black text-slate-900 tracking-tight mb-5 sm:mb-6 max-w-4xl mx-auto leading-[1.15]">
                   AI-Orchestrated Competency Assurance for{' '}
                   <span className="animate-text-shimmer">Official Statistics</span>
                 </h1>
 
-                <p className="animate-fade-up-d1 text-base sm:text-lg text-slate-600 max-w-3xl mx-auto mb-10 leading-relaxed font-normal">
+                <p className="animate-fade-up-d1 text-sm sm:text-lg text-slate-600 max-w-3xl mx-auto mb-8 sm:mb-10 leading-relaxed font-normal">
                   Ingests dense government manuals, extracts tabular matrices via OCR, generates grounded questions using Gemini Pro at temperature 0.0, and puts expert trainers in the loop before deploying to iGOT Karmayogi.
                 </p>
 
-                <div className="animate-fade-up-d2 flex flex-wrap items-center justify-center gap-4 mb-16">
+                <div className="animate-fade-up-d2 flex flex-col sm:flex-row items-stretch sm:items-center justify-center gap-3 sm:gap-4 max-w-2xl mx-auto mb-14 sm:mb-16 px-1">
                   <button
                     onClick={() => setEvaluatorTourOpen(true)}
-                    className="btn-primary px-7 py-4 bg-gradient-to-r from-amber-500 via-orange-500 to-amber-600 hover:from-amber-400 hover:to-orange-400 border-2 border-amber-300 text-slate-950 text-sm sm:text-base font-black rounded-xl shadow-xl shadow-amber-500/30 flex items-center gap-3 active:scale-95 animate-subtle-pulse cursor-pointer"
+                    className="btn-primary px-5 sm:px-7 py-3.5 sm:py-4 bg-gradient-to-r from-amber-500 via-orange-500 to-amber-600 hover:from-amber-400 hover:to-orange-400 border-2 border-amber-300 text-slate-950 text-sm sm:text-base font-black rounded-xl shadow-xl shadow-amber-500/30 flex items-center justify-center gap-2.5 sm:gap-3 active:scale-95 animate-subtle-pulse cursor-pointer"
                   >
-                    <Rocket className="w-5 h-5 text-slate-950" />
+                    <Rocket className="w-5 h-5 text-slate-950 shrink-0" />
                     <span>Start Evaluator Tour (3-Min Walkthrough)</span>
                   </button>
 
                   <button
                     onClick={() => handleSwitchRole('admin')}
-                    className="btn-primary px-7 py-4 bg-[#0B2545] hover:bg-slate-900 border border-slate-800 text-white text-sm sm:text-base font-bold rounded-xl shadow-md flex items-center gap-3 cursor-pointer"
+                    className="btn-primary px-5 sm:px-7 py-3.5 sm:py-4 bg-[#0B2545] hover:bg-slate-900 border border-slate-800 text-white text-sm sm:text-base font-bold rounded-xl shadow-md flex items-center justify-center gap-2.5 sm:gap-3 cursor-pointer active:scale-95"
                   >
-                    <ShieldCheck className="w-5 h-5 text-amber-400" />
-                    Enter as Admin Trainer (HITL Curation)
+                    <ShieldCheck className="w-5 h-5 text-amber-400 shrink-0" />
+                    <span>Admin Trainer (HITL)</span>
                   </button>
 
                   <button
                     onClick={() => handleSwitchRole('learner')}
-                    className="btn-primary px-7 py-4 bg-[#0F766E] hover:bg-teal-800 border border-teal-800 text-white text-sm sm:text-base font-bold rounded-xl shadow-md flex items-center gap-3 cursor-pointer"
+                    className="btn-primary px-5 sm:px-7 py-3.5 sm:py-4 bg-[#0F766E] hover:bg-teal-800 border border-teal-800 text-white text-sm sm:text-base font-bold rounded-xl shadow-md flex items-center justify-center gap-2.5 sm:gap-3 cursor-pointer active:scale-95"
                   >
-                    <BookOpen className="w-5 h-5 text-emerald-300" />
-                    Enter as Learner Officer (Assessment & iGOT)
+                    <BookOpen className="w-5 h-5 text-emerald-300 shrink-0" />
+                    <span>Learner Officer (iGOT)</span>
                   </button>
                 </div>
 
